@@ -3,9 +3,12 @@
 \subsection{Setup}
 
 We study two small open-weight models with distinct architectures and
-training pipelines, Gemma-3n E4B and Ministral-3 3B, run locally in 4-bit
-MLX quantization with full token-level instrumentation (per-token logits
-and final-layer hidden states). Problems come from the MATH benchmark \citep{hendrycks2021math}.
+training pipelines --- Gemma-4 E4B (\texttt{google/gemma-4-E4B-it}) and
+Ministral-3 3B (\texttt{mistralai/Ministral-3-3B-Reasoning-2512}, an
+explicitly reasoning-tuned release) --- run locally in thinking mode, in
+4-bit MLX quantization (\texttt{mlx-community} conversions), with full
+token-level instrumentation (per-token logits and final-layer hidden
+states). Problems come from the MATH benchmark \citep{hendrycks2021math}.
 Because breakthrough measurement is only informative on problems a model
 sometimes solves, cohorts were selected by outcome-blind
 intermediate-difficulty screens, frozen before any probe outcome existed: a

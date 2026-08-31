@@ -61,14 +61,14 @@ Figure~\ref{fig:budgetfals} shows the A2 experiment behind
 Section~\ref{sec:results-regimes}: development-cohort cells re-probed at a
 4{,}096-token continuation budget with paired seeds. Ministral-3's
 apparent mid-trajectory crossings dissolve --- 16-token prefixes solve at
-the larger budget --- while Gemma-3n's early crossings remain pinned,
+the larger budget --- while Gemma-4's early crossings remain pinned,
 validating them as genuine.
 
 \begin{figure}[h]\centering
 \includegraphics[width=\linewidth]{budget_falsification}
 \caption{A2 budget sensitivity: the same cells probed at $B = 1{,}024$
 versus $B = 4{,}096$. Ministral-3's ``breakthroughs'' are budget
-artifacts; Gemma-3n's survive.}
+artifacts; Gemma-4's survive.}
 \label{fig:budgetfals}\end{figure}
 
 \subsection{Per-trajectory intervals and label hardening}
@@ -76,10 +76,10 @@ artifacts; Gemma-3n's survive.}
 Figure~\ref{fig:swimmer} shows every expansion-cohort trajectory's
 breakthrough interval or censoring bound; Figure~\ref{fig:hardening} shows
 what the noise-hardening rules changed. Terminal replication confirmed 13
-of Ministral-3's 16 threshold-censored candidates and rejected Gemma-3n's
+of Ministral-3's 16 threshold-censored candidates and rejected Gemma-4's
 single candidate; pooling ambiguous cells to eight attempts moved labels
 on $7+6$ of $49+49$ trajectories, dominated by losses (six events removed,
-one added; Gemma-3n's changes were mostly interval shifts).
+one added; Gemma-4's changes were mostly interval shifts).
 
 \begin{figure}[h]\centering
 \includegraphics[width=\linewidth]{swimmer_wave3}
@@ -122,7 +122,7 @@ success criterion.}
 \label{tab:levelfree}\end{table}
 
 Per-model test-split descriptives (no per-model claims are made): on the
-primary endpoint the baseline scores 1.00 for Gemma-3n ($n{=}16$) and 0.69
+primary endpoint the baseline scores 1.00 for Gemma-4 ($n{=}16$) and 0.69
 for Ministral-3 ($n{=}17$, early signals 0.76); on the secondary endpoint
 1.00 versus 0.73 ($n{=}11$, $14$). The horizon endpoint's power
 arithmetic: 21 interior events project-wide, 4 in the test split; the

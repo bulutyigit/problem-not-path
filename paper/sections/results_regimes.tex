@@ -10,7 +10,7 @@ tokens: the ``breakthroughs'' marked where solutions began to fit the
 budget, not where the prefix accumulated value. Applied to all 178 cells,
 the frozen taxonomy yields the map in Figure~\ref{fig:regimemap}: for
 Ministral-3, 33 cells are budget-limited, 17 instant, 8 terminal, 2
-no-crossing, and 29 unsolved; for Gemma-3n, 26 instant, 4 budget-limited,
+no-crossing, and 29 unsolved; for Gemma-4, 26 instant, 4 budget-limited,
 3 no-crossing, 55 unsolved --- and exactly \emph{one} prefix-limited cell
 in the entire dataset (a development problem with $\Tv = 896$ and advantage
 $0.75$). The 98 expansion cells, collected after the rules were frozen,
@@ -34,7 +34,7 @@ The restart curves themselves carry the cleanest model-level finding
 share of problems Ministral-3 solves from scratch climbs monotonically
 with budget --- $0\% \to 19\% \to 45\% \to 79\%$ across $1{,}024 \to
 8{,}192$ tokens, with zero non-monotone curves among 42 --- while
-Gemma-3n stays flat at $10$--$12\%$ across the same budgets, with five
+Gemma-4 stays flat at $10$--$12\%$ across the same budgets, with five
 problems whose restart rate \emph{decreases} at larger budgets
 (overthinking on natural problems, complementing constructed-task inverse
 scaling \citep{gema2025inverse}). One model's failures are
@@ -47,7 +47,7 @@ also cautions against averaging such models in evaluations.
 \includegraphics[width=\linewidth]{wave3_restart_dose_response}
 \caption{Restart dose--response on non-instant expansion cells.
 Individual curves (left) and share solved from scratch (right):
-Ministral-3 climbs $0\%\to79\%$; Gemma-3n stays flat.}
+Ministral-3 climbs $0\%\to79\%$; Gemma-4 stays flat.}
 \label{fig:dose}\end{figure}
 
 \subsection{Accumulated reasoning is compute compression}
