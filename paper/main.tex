@@ -43,17 +43,20 @@ from-scratch restart curves $R(C)$ at matched \emph{total} compute, with
 interval censoring and attempt-level noise handled explicitly. Applying the
 instrument to 178 problem--model cells (89 MATH problems $\times$ two small
 open models, 16K-token instrumented traces), we find: (i) only 1 of 178
-cells exhibits genuine prefix-locked value; (ii) restart dose--response
+cells survives as prefix-limited under the frozen rules (three cells cross
+the advantage margin; an in-grid restart already solves two); (ii) restart dose--response
 curves cleanly separate failure modes --- one model is compute-starved
 (solve share 0\%$\to$79\% as budget grows), the other capability-limited
 (flat); (iii) at matched total compute, continuing the model's own prefix
-beats restarting in 11/13 late-crossing cells, yet a larger restart budget
-catches up in 11/13 --- accumulated reasoning acts as \emph{compute
+beats restarting in 11/13 late-crossing cells, yet an 8{,}192-token restart
+reaches the same threshold in 11/13 and the prefix's own success rate in
+9/13 --- accumulated reasoning acts as \emph{compute
 compression}, not expanded reachability; (iv) roughly a third of ambiguous
-intermediate states have genuinely stochastic solvability (success rates
-0.3--0.6 at $n{=}8$); and (v) in a pre-registered, single-shot evaluation on
+intermediate states remain intermediate after eight attempts (success
+rates 0.3--0.6), a band the independent second half of attempts
+reproduces; and (v) in a pre-registered, single-shot evaluation on
 a held-out test split, early-window internal signals (entropy, successive
-divergences, hidden-state geometry) add \emph{nothing} to outcome prediction
+divergences, hidden-state geometry) add no detectable outcome information
 beyond a problem-difficulty baseline, at every forecast point from 128 to
 2,048 tokens --- a control that the growing literature of probe-based
 positives lacks. Two generation-free analyses of public corpora show the

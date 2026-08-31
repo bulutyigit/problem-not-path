@@ -13,7 +13,11 @@ Ministral-3, 33 cells are budget-limited, 17 instant, 8 terminal, 2
 no-crossing, and 29 unsolved; for Gemma-4, 26 instant, 4 budget-limited,
 3 no-crossing, 55 unsolved --- and exactly \emph{one} prefix-limited cell
 in the entire dataset (a development problem with $\Tv = 896$ and advantage
-$0.75$). The 98 expansion cells, collected after the rules were frozen,
+$0.75$). Decomposed: the advantage crossing itself occurs in three cells at
+the primary margin; the frozen precedence classifies the other two as
+budget-limited because a 4{,}096-token restart already solves them, and
+four \emph{instant} cells additionally show an advantage at their
+$\le 16$-token anchors. The 98 expansion cells, collected after the rules were frozen,
 contributed zero new prefix-limited cases. Loosening the margin to
 $\delta = 0.25$ adds four crossings, tightening to $0.75$ keeps two, and
 the conservative $\Rhat$ envelope agrees with the primary labels on all
@@ -31,13 +35,16 @@ per-model totals). One cell of 178 is prefix-limited.}
 
 The restart curves themselves carry the cleanest model-level finding
 (Figure~\ref{fig:dose}). On expansion cells that are not instant, the
-share of problems Ministral-3 solves from scratch climbs monotonically
-with budget --- $0\% \to 19\% \to 45\% \to 79\%$ across $1{,}024 \to
-8{,}192$ tokens, with zero non-monotone curves among 42 --- while
-Gemma-4 stays flat at $10$--$12\%$ across the same budgets, with five
-problems whose restart rate \emph{decreases} at larger budgets
-(overthinking on natural problems, complementing constructed-task inverse
-scaling \citep{gema2025inverse}). One model's failures are
+share of problems Ministral-3 solves from scratch climbs with budget ---
+$0\% \to 19\% \to 45\% \to 79\%$ across $1{,}024 \to 8{,}192$ tokens ---
+while Gemma-4 stays flat at $10$--$12\%$. Individual four-attempt curves
+are noisy: 8 of Ministral-3's 42 show at least one decrease between
+consecutive budgets (all of a single attempt, $0.25$; two cells revert
+across the $\tauthr$ threshold), against 18 of Gemma-4's 40, five with
+drops of at least $0.5$ and one threshold reversal --- larger-budget
+restarts \emph{losing} solved problems, overthinking on natural problems
+that complements constructed-task inverse scaling
+\citep{gema2025inverse}. One model's failures are
 \emph{compute-starved}; the other's are \emph{capability-limited}. The two
 models agree on a collapsed regime class for only 42 of 89 problems:
 small models do not share a single ``small-model'' failure mode, which
@@ -57,7 +64,12 @@ whose crossing was replicated only at the final anchor --- allow the
 sharpest statement of what a long prefix is worth
 (Figure~\ref{fig:matched}). At \emph{matched total compute}, continuing
 the model's own prefix beats restarting in 11 of 13 cells (median
-advantage $+0.31$); yet an $8{,}192$-token restart catches up in 11 of 13.
+advantage $+0.31$); for the four cells anchored at $t = 8{,}192$ the
+matched budget of $9{,}216$ exceeds the restart grid and
+$\Rhat(8{,}192)$ is substituted --- a substitution that can only favor
+the prefix, disclosed here. The largest measured restart reaches
+$\tauthr$ in 11 of 13 cells and matches the prefix's own pooled success
+rate in 9 of 13.
 Accumulated reasoning therefore acts as \emph{compression} --- it reaches
 the same solutions with fewer total tokens --- rather than as expanded
 reachability. This instantiates, empirically and per problem, the no-benefit branch of
@@ -73,19 +85,24 @@ value of a partial trace expressed in fresh-token units.
 \begin{figure}[t]\centering
 \includegraphics[width=.9\linewidth]{wave3_matched_compute}
 \caption{Matched-compute value of long prefixes on 13 threshold-censored
-cells: the prefix wins at equal total compute (11/13), and a large restart
-budget closes the gap (11/13).}
+cells: the prefix wins at equal total compute (11/13); the largest
+measured restart reaches $\tauthr$ in 11/13 and the prefix's own rate in
+9/13.}
 \label{fig:matched}\end{figure}
 
 \subsection{A genuinely stochastic solvability band}
 
 Enlarging all 148 ambiguous cells to eight attempts resolved 55 as
 effectively unsolvable ($\le 2/8$) and 38 as solvable ($\ge 6/8$) --- and
-left \emph{55 genuinely intermediate} ($3$--$5$ of $8$;
-Figure~\ref{fig:band}). At these anchors the continuation success
-probability really is $\approx 0.3$--$0.6$: a property of the state, not
-of the measurement. Intermediate states are therefore not binary
-solvable/unsolvable, which undermines the single-crossing, monotone-value
+left \emph{55 intermediate after eight attempts} ($3$--$5$ of $8$;
+Figure~\ref{fig:band}). Because these cells were selected on their first
+four attempts, pooled rates partly reflect selection; the independent
+second half of attempts, however, reproduces the band --- 58\% of
+enlarged cells land at $1$--$3$ of $4$ on branches never used for
+selection --- so intermediate success probabilities are not a pure
+selection artifact, though eight-attempt intervals remain wide. A sizable
+band of intermediate-solvability states is the natural reading, which
+undermines the single-crossing, monotone-value
 picture implicit in binary-search process-labeling schemes
 \citep{luo2024omegaprm} and in snowball-error accounts of monotone
 degradation \citep{gan2025snowball}, and which converges with
@@ -95,5 +112,6 @@ distinct populations \citep{islah2026}.
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{wave3_topup_resolution}
 \caption{What ambiguous $1$--$3/4$ cells became at eight attempts: about a
-third remain genuinely intermediate.}
+third remain intermediate, a pattern the independent second half of
+attempts reproduces.}
 \label{fig:band}\end{figure}

@@ -100,13 +100,14 @@ def pooled_ci(frame, column, draws, seed):
     return round(float(lo), 4), round(float(hi), 4)
 
 
-def within_problem_metric(frame, column):
+def within_problem_metric(frame, column, pair_weighted=False):
     per = []
     for problem, group in frame.groupby("problem"):
         y = group.correct.to_numpy()
         if y.min() == y.max():
             continue
-        weight = int((~y.astype(bool)).sum())
+        fails = int((~y.astype(bool)).sum())
+        weight = fails * int(y.sum()) if pair_weighted else fails
         per.append((problem, roc_auc_score(y, group[column]), weight))
     return per
 
@@ -143,8 +144,11 @@ def main() -> None:
                 t: npz[f"anchor_{t}"] for t in ANCHORS if f"anchor_{t}" in npz
             }
 
-    # LOO pass-rate baseline per row (255 or 7 other samples).
-    counts = index.groupby("problem").correct.agg(["sum", "size"])
+    # LOO pass-rate baseline per row from the FULL verification table
+    # (255 other samples for every problem), not the extracted subset.
+    full = pd.read_parquet(args.extraction_dir / "sample_correctness.parquet")
+    counts = full.groupby("problem").correct.agg(["sum", "size"])
+    counts.index = counts.index.astype(int)
     index = index.join(counts, on="problem")
     index["loo_rate"] = (index["sum"] - index.correct) / (index["size"] - 1)
 
@@ -168,15 +172,21 @@ def main() -> None:
             sub = pooled[pooled[column].notna()]
             auroc = round(float(roc_auc_score(sub.correct, sub[column])), 4)
             lo, hi = pooled_ci(sub, column, args.bootstrap, args.seed)
-            per = within_problem_metric(
-                usable[usable.subset.eq("within") & usable[column].notna()], column)
+            wframe = usable[usable.subset.eq("within") & usable[column].notna()]
+            per = within_problem_metric(wframe, column)
+            per_pw = within_problem_metric(wframe, column, pair_weighted=True)
             weights = sum(w for *_, w in per)
             within = round(float(np.average([a for _, a, _ in per],
                                             weights=[w for *_, w in per])), 4)
+            within_pw = round(float(np.average([a for _, a, _ in per_pw],
+                                               weights=[w for *_, w in per_pw])), 4)
             wlo, whi = within_ci(per, args.bootstrap, args.seed)
+            pwlo, pwhi = within_ci(per_pw, args.bootstrap, args.seed + 1)
             entry[name] = {
                 "pooled_auroc": auroc, "pooled_ci": [lo, hi],
                 "within_problem_auroc": within, "within_ci": [wlo, whi],
+                "within_pair_weighted": within_pw,
+                "within_pair_weighted_ci": [pwlo, pwhi],
                 "within_problems_used": len(per), "within_failure_weight": int(weights),
             }
         report["anchors"][str(t)] = entry

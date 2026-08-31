@@ -315,11 +315,105 @@ def fig_budget_falsification(root: Path, out: Path) -> None:
     plt.close(fig)
 
 
+
+
+def fig_matched_compute(root: Path, labels: pd.DataFrame, out: Path) -> None:
+    from matplotlib.lines import Line2D
+    term = json.loads((root / "probes/sensitivity/terminal_stability_wave3/"
+                       "ministral3/terminal_stability_summary.json").read_text())
+    pooled_rate = {v["problem_id"]: v["pooled_rate"] for v in term["variants"]
+                   if v["variant_event_observed"]}
+    lab = labels[(labels.cohort == "wave3") & (labels.model == "ministral3")
+                 & labels.terminal_a1_anchor.notna()].copy()
+    lab["prefix_rate"] = lab.problem_id.map(pooled_rate)
+    lab["matched_R"] = lab.prefix_rate - lab.terminal_a1_advantage
+    lab = lab.sort_values(["terminal_a1_anchor", "terminal_a1_advantage"]).reset_index(drop=True)
+    fig, ax = plt.subplots(figsize=(9.8, 6.0), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0, 1, 0.80))
+    for i, row in lab.iterrows():
+        ax.plot([row.matched_R, row.prefix_rate], [i, i], color=BASE, lw=1.6, zorder=1)
+        ax.scatter(row.matched_R, i, color=MUTED, s=46, zorder=3)
+        ax.scatter(row.prefix_rate, i, color=ORANGE, s=52, zorder=4)
+        ax.scatter(row.R_8192, i, facecolor="none", edgecolor=INK, s=64,
+                   marker="^", zorder=2, linewidths=1.2)
+    ax.axvline(TAU, color=MUTED, lw=1, ls="--")
+    ax.text(TAU + 0.005, len(lab) - 0.4, "τ = 0.75", fontsize=8.4, color=MUTED)
+    ax.set_yticks(range(len(lab)))
+    ax.set_yticklabels(
+        [("%s  (t = %s)" % (p.split("_")[1], format(int(a), ","))) +
+         ("*" if a == 8192 else "")
+         for p, a in zip(lab.problem_id, lab.terminal_a1_anchor)], fontsize=8.4)
+    ax.set_xlabel("Success rate"); ax.set_xlim(-0.04, 1.06)
+    ax.grid(axis="y", visible=False)
+    ax.set_title("Prefix beats restart at matched total compute in 11/13; the "
+                 "largest measured restart reaches τ in 11/13 and the prefix "
+                 "rate in 9/13\n(* matched budget 9,216 exceeds the grid; "
+                 "R(8,192) substituted, favoring the prefix)",
+                 loc="left", fontsize=8.8, color=SEC, pad=10)
+    handles = [Line2D([], [], marker="o", ls="", color=ORANGE,
+                      label="continue own prefix at final anchor t (pooled, 8 branches)"),
+               Line2D([], [], marker="o", ls="", color=MUTED,
+                      label="restart at matched compute R\u0302(t + 1,024)"),
+               Line2D([], [], marker="^", ls="", markerfacecolor="none",
+                      markeredgecolor=INK, label="restart at 8,192 (largest budget)")]
+    fig.legend(handles=handles, frameon=False, fontsize=8.6, loc="outside upper left",
+               bbox_to_anchor=(0.035, 0.93), ncols=1)
+    fig.suptitle("Matched-compute value of Ministral's long prefixes — 13 censored "
+                 "Wave 3 cells", fontsize=11.5, color=INK, x=0.01, ha="left")
+    fig.savefig(out / "wave3_matched_compute.png", dpi=180)
+    plt.close(fig)
+
+
+def fig_dissection(report_path: Path, out: Path) -> None:
+    r = json.loads(report_path.read_text())
+    ts = [4, 8, 16, 32, 64, 128, 192, 256, 384, 512]
+    pooled = [r["anchors"][str(t)]["state_probe"]["pooled_auroc"] for t in ts]
+    p_lo = [r["anchors"][str(t)]["state_probe"]["pooled_ci"][0] for t in ts]
+    p_hi = [r["anchors"][str(t)]["state_probe"]["pooled_ci"][1] for t in ts]
+    within = [r["anchors"][str(t)]["state_probe"]["within_problem_auroc"] for t in ts]
+    w_lo = [r["anchors"][str(t)]["state_probe"]["within_ci"][0] for t in ts]
+    w_hi = [r["anchors"][str(t)]["state_probe"]["within_ci"][1] for t in ts]
+    ceiling = r["anchors"]["4"]["loo_pass_rate"]["pooled_auroc"]
+    fig, ax = plt.subplots(figsize=(9.8, 5.0), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0, 1, 0.86))
+    ax.axhline(ceiling, color=MUTED, lw=1.4, ls=":")
+    ax.text(510, ceiling - 0.025,
+            "difficulty ceiling: LOO pass rate of 255 other samples "
+            f"({ceiling:.3f})", ha="right", fontsize=8.4, color=SEC)
+    ax.axhline(0.5, color=INK, lw=1)
+    ax.text(510, 0.508, "chance", ha="right", fontsize=8.2, color=MUTED)
+    ax.fill_between(ts, p_lo, p_hi, color=ORANGE, alpha=0.15)
+    ax.plot(ts, pooled, "-o", color=ORANGE, lw=2.2, ms=5.5,
+            label="pooled across problems, 8-per-problem set (n = 1,024)")
+    ax.fill_between(ts, w_lo, w_hi, color="#0f8a74", alpha=0.18)
+    ax.plot(ts, within, "-o", color="#0f8a74", lw=2.2, ms=5.5,
+            label="within problem, 22 mid-band problems (n = 5,632)")
+    ax.scatter([4], [0.84], marker="D", s=52, facecolor="none",
+               edgecolor="#8a7ad9", linewidths=1.6, zorder=5)
+    ax.annotate("0.84 reported by the\nuncontrolled original", (4, 0.84),
+                textcoords="offset points", xytext=(14, 8), fontsize=8.2,
+                color="#8a7ad9")
+    ax.set_xscale("log", base=2); ax.set_xticks(ts)
+    ax.set_xticklabels([str(t) for t in ts])
+    ax.set_xlabel("Probe anchor t (generated tokens)")
+    ax.set_ylabel("AUROC for trajectory correctness")
+    ax.set_ylim(0.42, 1.01)
+    ax.legend(frameon=False, fontsize=8.6, loc="center right")
+    fig.suptitle("Dissecting an early-window probe positive — R1-Distill-7B "
+                 "public trajectories", fontsize=11.5, color=INK, x=0.01, ha="left")
+    ax.set_title("Same probe, two evaluation sets: the pooled positive replicates "
+                 "at t = 4 and is chance within problem at every anchor",
+                 loc="left", fontsize=8.8, color=SEC)
+    fig.savefig(out / "math128_probe_dissection.png", dpi=180)
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument("--phase04c-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--dissection-report", type=Path, default=None)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     labels = pd.read_parquet(args.labels)
@@ -329,7 +423,10 @@ def main() -> None:
     fig_label_hardening(args.output_dir)
     fig_swimmer(args.phase04c_root, args.output_dir)
     fig_budget_falsification(args.phase04c_root, args.output_dir)
-    print("six figures rendered to", args.output_dir)
+    fig_matched_compute(args.phase04c_root, labels, args.output_dir)
+    if args.dissection_report and args.dissection_report.exists():
+        fig_dissection(args.dissection_report, args.output_dir)
+    print("figures rendered to", args.output_dir)
 
 
 if __name__ == "__main__":

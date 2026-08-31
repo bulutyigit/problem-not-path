@@ -44,7 +44,8 @@ The instrument returns a consistent picture:
 
 \begin{itemize}
 \item \textbf{Breakthroughs are mostly budget artifacts.} Exactly 1 of 178
-cells shows genuine prefix-locked value; 98 cells collected after the
+cells survives as prefix-limited (three cross the advantage margin; an
+in-grid restart already solves two); 98 cells collected after the
 rules were frozen contributed zero new cases
 (Section~\ref{sec:results-regimes}).
 \item \textbf{Restart dose--response separates failure modes.} One model's
@@ -52,13 +53,14 @@ unsolved problems dissolve as budget grows ($0\%\to79\%$,
 compute-starved); the other's do not budge (capability-limited).
 \item \textbf{Accumulated reasoning is compute compression.} At matched
 total compute the model's own prefix beats restarting (11/13), yet a
-larger restart budget catches up (11/13): long reasoning reaches the same
-places cheaper, not new places.
+larger restart budget reaches the same threshold in 11/13 and the prefix's
+own rate in 9/13: long reasoning reaches the same places cheaper, not new
+places.
 \item \textbf{Solvability is not binary.} A third of ambiguous
 intermediate states remain genuinely stochastic (success $0.3$--$0.6$ at
 eight attempts).
-\item \textbf{Early internal signals carry no outcome information beyond
-difficulty.} A pre-registered, single-shot test on a held-out split finds
+\item \textbf{Early internal signals carry no detectable outcome
+information beyond difficulty.} A pre-registered, single-shot test on a held-out split finds
 $\Delta$AUROC $\approx 0$ at every forecast window
 (Section~\ref{sec:results-prediction}); on public data, a question-only
 signal reaches 0.873 on 192K DeepSeek-R1 generations --- inside the
@@ -74,7 +76,7 @@ never carry within-attempt information --- at intermediate-answer
 positions, in larger models, or in other domains the verdict may differ. What we do claim is that the two controls change
 conclusions wherever we have applied them, that they are cheap (our public
 data analyses required no generation at all), and that trajectory-level
-claims about reasoning should not be published without them. Every
+claims about reasoning should be reported with them. Every
 decision rule in this study was frozen in committed amendments before the
 outcomes it governs were observed, gate failures included
 (Section~\ref{sec:method}, App.~\ref{app:amendments}).

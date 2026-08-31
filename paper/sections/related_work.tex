@@ -14,7 +14,12 @@ volatility in such estimates is sampling noise. Closest in shape to our
 probe, \citet{merrill2026ponr} fix prefixes and resample continuations at
 scale to localize where a (deceptive) outcome ``locks in,'' and
 \citet{ballon2026} read answer distributions from truncated prefixes,
-finding that commitment rises steadily with prefix length. All of
+finding that commitment rises steadily with prefix length; and
+\citet{wang2026re2}, as motivation for training models to abandon bad
+prefixes, compare continuing truncated \emph{incorrect} traces against
+re-solving from scratch --- the nearest published continue-versus-restart
+comparison, without matched total compute or per-anchor value curves. All
+of
 these estimate what a prefix \emph{leads to}; none of them ask what the
 prefix is \emph{worth} relative to not having it. Our contribution is the
 missing control: an empty-prefix restart baseline $R(C)$ at matched total
@@ -99,8 +104,8 @@ within-problem effect sizes fall as low as $d{=}0.13$), while
 conclude that activations encode model-specific \emph{difficulty}. Our
 pre-registered, single-shot test supplies the missing control at the point
 where it bites: over forecast windows of 128--2{,}048 tokens, frozen
-summary features of the run's internal dynamics add no AUROC over a
-difficulty baseline on held-out problems --- consistent with reports that
+summary features of the run's internal dynamics add no detectable AUROC
+over a difficulty baseline on held-out problems --- consistent with reports that
 correct and incorrect trajectories diverge late \citep{sun2026trajectories},
 that trajectory geometry remains systematically coupled to difficulty once
 length is residualized \citep{gjolbye2026}, and that difficulty-driven sample composition contaminates position-wise
