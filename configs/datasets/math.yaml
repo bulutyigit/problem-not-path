@@ -1,0 +1,7 @@
+name: math
+repository: DigitalLearningGmbH/MATH-lighteval
+configuration: default
+source_split: test
+sample_size: 200
+sample_seed: 20260728
+revision: null

@@ -1,0 +1,80 @@
+% Intro — full prose v1 (written last-but-one; abstract polished after).
+
+Two appealing beliefs circulate about the reasoning traces of large
+language models. The first is that traces contain \emph{breakthrough
+moments} --- points where accumulated reasoning suddenly unlocks a
+solution, popularized as ``aha moments'' in reinforcement-trained
+reasoners \citep{deepseekr1}. The second is that a run's fate is legible
+early: probes on hidden states reportedly predict correctness
+with AUROC $0.79$--$0.95$, sometimes from the first four tokens
+\citep{zhang2025knowright, yuan2026diagnostic, david2025temporal,
+sun2026trajectories}, and
+serving systems already allocate compute on such signals
+\citep{fu2024certaindex, fu2025deepconf}. Both beliefs, if true, would
+matter: the first for what test-time compute buys, the second for
+adaptive inference and interpretability.
+
+Both beliefs rest on measurements with a missing control, and the two
+missing controls mirror each other. Breakthrough claims rest on
+truncate-and-resample probes: cut the trace at position $t$, sample
+continuations under a budget, and call the first high-solve-rate anchor a
+breakthrough. But a crossing of that kind conflates two events ---
+\emph{the prefix accumulated value} and \emph{the remaining work began to
+fit the budget}. Distinguishing them requires a from-scratch \emph{restart}
+control at matched total compute, which no published probe runs.
+Prediction claims rest on probes evaluated across problems, where a probe
+can score well by reading \emph{which problem it is} --- its difficulty
+--- rather than how the attempt is going. Distinguishing those requires a
+question-only baseline and a within-problem evaluation, which the
+published positives do not report; the confound was not raised even in the
+public review file of the area's flagship result.
+
+This paper supplies both controls and reports what they change. We build a
+restart-controlled, budget-indexed, censoring-aware truncation probe
+(Section~\ref{sec:method}): per-anchor continuation solve rates
+$\phat(t)$ are compared against restart curves $R(C)$ at matched total
+compute, splitting the naive breakthrough time into a budget-fit time
+\Tf{} and a prefix-value time \Tv, with attempt-level noise hardened by
+replication and pooling. We apply it to 178 problem--model cells (89 MATH
+problems $\times$ two small open models, 16K-token instrumented traces),
+and we complement it with two analyses of public reasoning-model corpora
+at larger scale.
+
+The instrument returns a consistent picture:
+
+\begin{itemize}
+\item \textbf{Breakthroughs are mostly budget artifacts.} Exactly 1 of 178
+cells shows genuine prefix-locked value; 98 cells collected after the
+rules were frozen contributed zero new cases
+(Section~\ref{sec:results-regimes}).
+\item \textbf{Restart dose--response separates failure modes.} One model's
+unsolved problems dissolve as budget grows ($0\%\to79\%$,
+compute-starved); the other's do not budge (capability-limited).
+\item \textbf{Accumulated reasoning is compute compression.} At matched
+total compute the model's own prefix beats restarting (11/13), yet a
+larger restart budget catches up (11/13): long reasoning reaches the same
+places cheaper, not new places.
+\item \textbf{Solvability is not binary.} A third of ambiguous
+intermediate states remain genuinely stochastic (success $0.3$--$0.6$ at
+eight attempts).
+\item \textbf{Early internal signals carry no outcome information beyond
+difficulty.} A pre-registered, single-shot test on a held-out split finds
+$\Delta$AUROC $\approx 0$ at every forecast window
+(Section~\ref{sec:results-prediction}); on public data, a question-only
+signal reaches 0.873 on 192K DeepSeek-R1 generations --- inside the
+published probe range --- and the closest published early-window positive
+replicates at $t{=}4$ (pooled 0.849) while sitting exactly at chance
+(0.496) within problem, at every anchor.
+\end{itemize}
+
+The claims are scoped deliberately. We study two small non-reasoning-tuned
+models plus public corpora from one reasoning-tuned family; we do not claim
+internal states never carry within-attempt information --- at
+intermediate-answer positions, in larger models, or in other domains the
+verdict may differ. What we do claim is that the two controls change
+conclusions wherever we have applied them, that they are cheap (our public
+data analyses required no generation at all), and that trajectory-level
+claims about reasoning should not be published without them. Every
+decision rule in this study was frozen in committed amendments before the
+outcomes it governs were observed, gate failures included
+(Section~\ref{sec:method}, App.~\ref{app:amendments}).

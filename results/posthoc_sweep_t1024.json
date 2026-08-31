@@ -1,0 +1,307 @@
+{
+  "amendment": "2026-08-27-phase-05-confirmatory-early-signal-test",
+  "assembly": {
+    "excluded_short_runs": [
+      {
+        "cells": 9,
+        "model_key": "gemma4_e4b_mlx_4bit",
+        "research_split": "test"
+      },
+      {
+        "cells": 1,
+        "model_key": "ministral3_3b_mlx_4bit",
+        "research_split": "test"
+      },
+      {
+        "cells": 23,
+        "model_key": "gemma4_e4b_mlx_4bit",
+        "research_split": "train"
+      },
+      {
+        "cells": 9,
+        "model_key": "ministral3_3b_mlx_4bit",
+        "research_split": "train"
+      },
+      {
+        "cells": 5,
+        "model_key": "gemma4_e4b_mlx_4bit",
+        "research_split": "validation"
+      },
+      {
+        "cells": 2,
+        "model_key": "ministral3_3b_mlx_4bit",
+        "research_split": "validation"
+      }
+    ],
+    "included_cells": 129,
+    "labeled_cells": 178
+  },
+  "features_sha256": {
+    "artifacts/mac_mlx/phase_04b/features/features_prefix_1024.parquet": "6feec820ed3ae23a7420a0209846f433970769de6f26996b86c8a8f3cd2367e3",
+    "artifacts/mac_mlx/phase_04c/expansion/wave3_features_sweep/features_prefix_1024.parquet": "68d9f7a013068d70a16f6501c0406b51742d07301130b263661270a5301c394c"
+  },
+  "forecast_token": 1024,
+  "horizon": {
+    "endpoint": "horizon_within_512",
+    "interior_event_cells_by_split": {
+      "test": 4,
+      "train": 10,
+      "validation": 2
+    },
+    "note": "far below the >=5 problem groups per class per fold requirement",
+    "verdict": "underpowered_not_fit"
+  },
+  "labels_sha256": "7b4105b286e4b52e5b4806641f66bfcdbdc80bca536b03cf3079e9d3c855936c",
+  "primary": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 1.0,
+        "ci_low": 0.2609
+      },
+      "delta": {
+        "ci_high": 0.0,
+        "ci_low": -0.4091
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 1.0,
+        "ci_low": 0.0
+      },
+      "skipped_single_class_draws": 64
+    },
+    "endpoint": "primary_eventual_success",
+    "level_free": false,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.6686,
+      "early_blocks": 0.5932
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 1.0,
+        "n": 8
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.6667,
+        "auroc_early_blocks": 0.5128,
+        "n": 16
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 17,
+        "1": 61
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 16,
+      "trainval": 62
+    },
+    "rows": {
+      "test": 24,
+      "trainval": 105
+    },
+    "success_criterion_met": false,
+    "target": "eventual_success",
+    "test_auroc": {
+      "early_baseline": 0.7625,
+      "early_blocks": 0.6375
+    },
+    "test_class_counts": {
+      "0": 4,
+      "1": 20
+    },
+    "test_delta_auroc": -0.125
+  },
+  "primary_level_free": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 1.0,
+        "ci_low": 0.4517
+      },
+      "delta": {
+        "ci_high": 0.0,
+        "ci_low": -0.6346
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 1.0,
+        "ci_low": 0.0
+      },
+      "skipped_single_class_draws": 64
+    },
+    "endpoint": "primary_eventual_success",
+    "level_free": true,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.6328,
+      "early_blocks": 0.5805
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 1.0,
+        "n": 8
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.7949,
+        "auroc_early_blocks": 0.5897,
+        "n": 16
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 17,
+        "1": 61
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 16,
+      "trainval": 62
+    },
+    "rows": {
+      "test": 24,
+      "trainval": 105
+    },
+    "success_criterion_met": false,
+    "target": "eventual_success",
+    "test_auroc": {
+      "early_baseline": 0.8375,
+      "early_blocks": 0.6625
+    },
+    "test_class_counts": {
+      "0": 4,
+      "1": 20
+    },
+    "test_delta_auroc": -0.175
+  },
+  "secondary": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 1.0,
+        "ci_low": 0.7333
+      },
+      "delta": {
+        "ci_high": 0.0185,
+        "ci_low": -0.2867
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.9444,
+        "ci_low": 0.5157
+      },
+      "skipped_single_class_draws": 0
+    },
+    "endpoint": "secondary_scratch_4096",
+    "level_free": false,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.8029,
+      "early_blocks": 0.8119
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 0.2857,
+        "n": 8
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.7917,
+        "auroc_early_blocks": 0.6458,
+        "n": 14
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 45,
+        "1": 24
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 14,
+      "trainval": 57
+    },
+    "rows": {
+      "test": 22,
+      "trainval": 98
+    },
+    "success_criterion_met": false,
+    "target": "scratch_solvable_4096",
+    "test_auroc": {
+      "early_baseline": 0.8718,
+      "early_blocks": 0.735
+    },
+    "test_class_counts": {
+      "0": 13,
+      "1": 9
+    },
+    "test_delta_auroc": -0.1368
+  },
+  "secondary_level_free": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 0.9333,
+        "ci_low": 0.6667
+      },
+      "delta": {
+        "ci_high": 0.075,
+        "ci_low": -0.2462
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.9271,
+        "ci_low": 0.4921
+      },
+      "skipped_single_class_draws": 0
+    },
+    "endpoint": "secondary_scratch_4096",
+    "level_free": true,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.7776,
+      "early_blocks": 0.8063
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 0.2857,
+        "n": 8
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.625,
+        "auroc_early_blocks": 0.6042,
+        "n": 14
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 45,
+        "1": 24
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 14,
+      "trainval": 57
+    },
+    "rows": {
+      "test": 22,
+      "trainval": 98
+    },
+    "success_criterion_met": false,
+    "target": "scratch_solvable_4096",
+    "test_auroc": {
+      "early_baseline": 0.8034,
+      "early_blocks": 0.7179
+    },
+    "test_class_counts": {
+      "0": 13,
+      "1": 9
+    },
+    "test_delta_auroc": -0.0855
+  }
+}

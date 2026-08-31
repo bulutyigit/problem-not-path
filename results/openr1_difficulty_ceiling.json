@@ -1,0 +1,30 @@
+{
+  "auroc_by_k": {
+    "2": 0.8746,
+    "3": 0.3909,
+    "4": 0.8056,
+    "5": 0.7887,
+    "6": 0.7852
+  },
+  "base_correct_rate": 0.6471,
+  "curation_caveat": "all-fail problems partly dropped by dataset curation; ceiling is understated",
+  "dataset": "open-r1/OpenR1-Math-220k (all shards)",
+  "dropped_null_uuid_rows": 6,
+  "generations": 192315,
+  "k_distribution": {
+    "2": 176906,
+    "3": 147,
+    "4": 14824,
+    "5": 90,
+    "6": 348
+  },
+  "oracle_upper_reference_non_loo": 0.9906,
+  "primary_auroc_difficulty_loo": 0.8731,
+  "primary_ci": {
+    "ci_high": 0.8756,
+    "ci_low": 0.8704,
+    "draws": 2000,
+    "skipped": 0
+  },
+  "problems": 91573
+}

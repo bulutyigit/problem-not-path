@@ -1,0 +1,7 @@
+name: gsm8k
+repository: openai/gsm8k
+configuration: main
+source_split: test
+sample_size: 200
+sample_seed: 20260728
+revision: null

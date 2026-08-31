@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reasonbench"
+version = "0.1.0"
+description = "Predict mathematical reasoning success from observable generation dynamics."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+  {name = "ReasonBench Contributors"}
+]
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<4",
+  "pyarrow>=17,<22",
+  "PyYAML>=6.0,<7",
+  "scipy>=1.13,<2",
+  "scikit-learn>=1.5,<2",
+  "matplotlib>=3.9,<4",
+  "seaborn>=0.13,<1",
+  "tqdm>=4.66,<5",
+  "zarr>=2.18,<4",
+]
+
+[project.optional-dependencies]
+colab = [
+  "accelerate>=1.4,<3",
+  "datasets>=3.2,<5",
+  "huggingface-hub>=0.27,<2",
+  "math-verify[antlr4_13_2]>=0.8,<1",
+  "mistral-common>=1.8.6,<2",
+  "pillow>=11,<13",
+  "safetensors>=0.5,<1",
+  "sentencepiece>=0.2,<1",
+  "sympy>=1.13,<2",
+  "transformers>=5.10.1,<6",
+]
+mac = [
+  "datasets>=3.2,<5",
+  "huggingface-hub>=0.27,<2",
+  "math-verify[antlr4_13_2]>=0.8,<1",
+  "mistral-common>=1.8.6,<2",
+  "mlx>=0.30,<1",
+  "mlx-vlm>=0.3.9,<1",
+  "pillow>=11,<13",
+  "safetensors>=0.5,<1",
+  "sentencepiece>=0.2,<1",
+  "sympy>=1.13,<2",
+  "transformers>=5.10.1,<6",
+]
+dev = [
+  "nbformat>=5.10,<6",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.9,<1",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["reasonbench"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]

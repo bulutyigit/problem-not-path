@@ -1,0 +1,22 @@
+key: gemma4_e4b
+model_id: google/gemma-4-E4B-it
+revision: null
+adapter: gemma4
+trust_remote_code: false
+dtype: bfloat16
+mode: non_reasoning
+reasoning_budget: null
+reasoning_budget_policy: none
+final_answer_reserve: 512
+max_prompt_tokens: 2048
+max_new_tokens: 2048
+hidden_state_stride: 8
+capture_hidden_states: true
+sampling:
+  temperature: 0.6
+  top_p: 0.95
+  top_k: 20
+  min_p: 0.0
+  do_sample: true
+  repetition_penalty: 1.0
+  presence_penalty: 0.0

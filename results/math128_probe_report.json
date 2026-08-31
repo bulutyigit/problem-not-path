@@ -1,0 +1,467 @@
+{
+  "anchors": {
+    "128": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.5484,
+        "pooled_ci": [
+          0.4247,
+          0.6636
+        ],
+        "within_ci": [
+          0.4915,
+          0.5425
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5155,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.498,
+        "pooled_ci": [
+          0.4131,
+          0.5991
+        ],
+        "within_ci": [
+          0.4767,
+          0.5274
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5009,
+        "within_problems_used": 22
+      }
+    },
+    "16": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.586,
+        "pooled_ci": [
+          0.4613,
+          0.7064
+        ],
+        "within_ci": [
+          0.4668,
+          0.5262
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.4954,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.5573,
+        "pooled_ci": [
+          0.416,
+          0.7071
+        ],
+        "within_ci": [
+          0.4805,
+          0.5636
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5231,
+        "within_problems_used": 22
+      }
+    },
+    "192": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2177,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1023,
+      "n_rows": 6478,
+      "state_probe": {
+        "pooled_auroc": 0.5718,
+        "pooled_ci": [
+          0.4209,
+          0.7055
+        ],
+        "within_ci": [
+          0.4659,
+          0.5254
+        ],
+        "within_failure_weight": 2177,
+        "within_problem_auroc": 0.4993,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.4531,
+        "pooled_ci": [
+          0.2987,
+          0.6611
+        ],
+        "within_ci": [
+          0.4981,
+          0.548
+        ],
+        "within_failure_weight": 2177,
+        "within_problem_auroc": 0.5243,
+        "within_problems_used": 22
+      }
+    },
+    "256": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.9339,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2176,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1022,
+      "n_rows": 6476,
+      "state_probe": {
+        "pooled_auroc": 0.5645,
+        "pooled_ci": [
+          0.4057,
+          0.6838
+        ],
+        "within_ci": [
+          0.476,
+          0.5913
+        ],
+        "within_failure_weight": 2176,
+        "within_problem_auroc": 0.5297,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.4514,
+        "pooled_ci": [
+          0.2777,
+          0.6766
+        ],
+        "within_ci": [
+          0.4997,
+          0.5542
+        ],
+        "within_failure_weight": 2176,
+        "within_problem_auroc": 0.5278,
+        "within_problems_used": 22
+      }
+    },
+    "32": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.561,
+        "pooled_ci": [
+          0.4222,
+          0.7024
+        ],
+        "within_ci": [
+          0.4936,
+          0.5555
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5252,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.5011,
+        "pooled_ci": [
+          0.3786,
+          0.624
+        ],
+        "within_ci": [
+          0.4744,
+          0.5453
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5096,
+        "within_problems_used": 22
+      }
+    },
+    "384": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9736,
+        "pooled_ci": [
+          0.9333,
+          0.991
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2145,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 993,
+      "n_rows": 6294,
+      "state_probe": {
+        "pooled_auroc": 0.5475,
+        "pooled_ci": [
+          0.4322,
+          0.6499
+        ],
+        "within_ci": [
+          0.4817,
+          0.5368
+        ],
+        "within_failure_weight": 2145,
+        "within_problem_auroc": 0.5088,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.5185,
+        "pooled_ci": [
+          0.3585,
+          0.6909
+        ],
+        "within_ci": [
+          0.4785,
+          0.5275
+        ],
+        "within_failure_weight": 2145,
+        "within_problem_auroc": 0.5047,
+        "within_problems_used": 22
+      }
+    },
+    "4": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.8494,
+        "pooled_ci": [
+          0.7345,
+          0.9188
+        ],
+        "within_ci": [
+          0.4655,
+          0.5266
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.4958,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.6469,
+        "pooled_ci": [
+          0.5207,
+          0.7772
+        ],
+        "within_ci": [
+          0.4624,
+          0.5135
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.49,
+        "within_problems_used": 22
+      }
+    },
+    "512": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9732,
+        "pooled_ci": [
+          0.9307,
+          0.9908
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2114,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 21
+      },
+      "n_pooled_rows": 945,
+      "n_rows": 6102,
+      "state_probe": {
+        "pooled_auroc": 0.5468,
+        "pooled_ci": [
+          0.4284,
+          0.6559
+        ],
+        "within_ci": [
+          0.4676,
+          0.5265
+        ],
+        "within_failure_weight": 2114,
+        "within_problem_auroc": 0.4967,
+        "within_problems_used": 21
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.4936,
+        "pooled_ci": [
+          0.3293,
+          0.6682
+        ],
+        "within_ci": [
+          0.4819,
+          0.5331
+        ],
+        "within_failure_weight": 2114,
+        "within_problem_auroc": 0.5065,
+        "within_problems_used": 21
+      }
+    },
+    "64": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.5815,
+        "pooled_ci": [
+          0.4422,
+          0.7056
+        ],
+        "within_ci": [
+          0.4512,
+          0.5096
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.4812,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.4971,
+        "pooled_ci": [
+          0.4085,
+          0.5776
+        ],
+        "within_ci": [
+          0.4971,
+          0.5635
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.5293,
+        "within_problems_used": 22
+      }
+    },
+    "8": {
+      "loo_pass_rate": {
+        "pooled_auroc": 0.9735,
+        "pooled_ci": [
+          0.934,
+          0.9906
+        ],
+        "within_ci": [
+          0.0,
+          0.0
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.0,
+        "within_problems_used": 22
+      },
+      "n_pooled_rows": 1024,
+      "n_rows": 6480,
+      "state_probe": {
+        "pooled_auroc": 0.6784,
+        "pooled_ci": [
+          0.5033,
+          0.8347
+        ],
+        "within_ci": [
+          0.4613,
+          0.5023
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.4815,
+        "within_problems_used": 22
+      },
+      "stream_summary": {
+        "pooled_auroc": 0.5685,
+        "pooled_ci": [
+          0.4695,
+          0.6624
+        ],
+        "within_ci": [
+          0.463,
+          0.5039
+        ],
+        "within_failure_weight": 2178,
+        "within_problem_auroc": 0.4851,
+        "within_problems_used": 22
+      }
+    }
+  },
+  "fidelity_p10": 0.8594,
+  "mean_top1_fidelity": 0.9056,
+  "n_trajectories": 6480
+}

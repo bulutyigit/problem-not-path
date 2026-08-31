@@ -1,0 +1,34 @@
+experiment_id: phase_03_ministral3
+phase_id: phase_03
+prompt_version: v1
+output_subdirectory: ministral3
+model:
+  key: ministral3_3b
+  model_id: mistralai/Ministral-3-3B-Reasoning-2512
+  revision: null
+  adapter: ministral3
+  trust_remote_code: false
+  dtype: bfloat16
+  mode: reasoning
+  reasoning_budget: null
+  reasoning_budget_policy: none
+  final_answer_reserve: 512
+  max_prompt_tokens: 2048
+  max_new_tokens: 8192
+  hidden_state_stride: 8
+  capture_hidden_states: true
+  sampling:
+    temperature: 0.6
+    top_p: 0.95
+    top_k: 20
+    min_p: 0.0
+    do_sample: true
+    repetition_penalty: 1.0
+datasets:
+  - name: math
+    split: test
+    sample_size: 100
+    seed: 20260728
+    levels: [1, 2, 3, 4, 5]
+    nested_base_sample_size: 50
+seeds: [11]

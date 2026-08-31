@@ -1,0 +1,16 @@
+{
+  "ci": [
+    0.8749,
+    0.9384
+  ],
+  "loo_ceiling_auroc": 0.9166,
+  "overall_pass_rate": 0.4565,
+  "pass_rate_bands": {
+    "0.25_0.75": 18,
+    "ge_0.75": 20,
+    "le_0.25": 26
+  },
+  "problems": 64,
+  "samples": 16384,
+  "unparsed_answers": 495
+}

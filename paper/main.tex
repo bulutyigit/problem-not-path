@@ -1,0 +1,114 @@
+% Breakthroughs or Budget Artifacts? — arXiv preprint skeleton
+% Compile on Overleaf (pdflatex + natbib). No local LaTeX on this machine.
+%
+
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\graphicspath{{figures/}}
+
+\newcommand{\Tf}{\ensuremath{T_F}}
+\newcommand{\Tv}{\ensuremath{T_V}}
+\newcommand{\phat}{\ensuremath{\hat{p}}}
+\newcommand{\Rhat}{\ensuremath{\hat{R}}}
+\newcommand{\tauthr}{\ensuremath{\tau}}
+
+\title{It's the Problem, Not the Path:\\
+Budget and Difficulty Confounds in LLM Reasoning Trajectories}
+\author{Yigit Utku Bulut\thanks{Work conducted independently.}\\
+Johannes Kepler University Linz\\
+\texttt{yigit.utku.bulut@outlook.com}\\
+\texttt{k12350740@students.jku.at}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+% Draft v1 — tighten after results sections are final.
+Reasoning traces of large language models are widely read as containing
+``breakthrough'' or ``aha'' moments --- points where accumulated reasoning
+suddenly unlocks a solution. We show that the standard way of measuring such
+moments is confounded: truncating a trace and resampling continuations under
+a fixed budget measures when a solution \emph{fits the continuation budget}
+(\Tf), not whether the prefix carries value that fresh computation cannot
+buy (\Tv). We introduce a restart-controlled probe that separates the two:
+per-anchor continuation solve rates $\phat(t)$ are compared against
+from-scratch restart curves $R(C)$ at matched \emph{total} compute, with
+interval censoring and attempt-level noise handled explicitly. Applying the
+instrument to 178 problem--model cells (89 MATH problems $\times$ two small
+open models, 16K-token instrumented traces), we find: (i) only 1 of 178
+cells exhibits genuine prefix-locked value; (ii) restart dose--response
+curves cleanly separate failure modes --- one model is compute-starved
+(solve share 0\%$\to$79\% as budget grows), the other capability-limited
+(flat); (iii) at matched total compute, continuing the model's own prefix
+beats restarting in 11/13 late-crossing cells, yet a larger restart budget
+catches up in 11/13 --- accumulated reasoning acts as \emph{compute
+compression}, not expanded reachability; (iv) roughly a third of ambiguous
+intermediate states have genuinely stochastic solvability (success rates
+0.3--0.6 at $n{=}8$); and (v) in a pre-registered, single-shot evaluation on
+a held-out test split, early-window internal signals (entropy, successive
+divergences, hidden-state geometry) add \emph{nothing} to outcome prediction
+beyond a problem-difficulty baseline, at every forecast point from 128 to
+2,048 tokens --- a control that the growing literature of probe-based
+positives lacks. Two generation-free analyses of public corpora show the
+control bites in that literature's own regime: on 192K DeepSeek-R1
+generations a question-only signal reaches AUROC 0.873, inside the
+published probe range; and the closest published early-window positive
+replicates exactly (pooled 0.849 at $t{=}4$ on 6{,}480 R1-Distill-7B
+trajectories) while sitting at chance (0.496) \emph{within problem} at
+every anchor --- the entire signal is problem identity.
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+\input{sections/intro}
+
+\section{A Restart-Controlled Probe of Reasoning Value}\label{sec:method}
+\input{sections/method}
+
+\section{Results I: Breakthroughs Under Control}\label{sec:results-regimes}
+\input{sections/results_regimes}
+
+\section{Results II: A Difficulty-Controlled Null for Early Signals}\label{sec:results-prediction}
+\input{sections/results_prediction}
+
+\section{Related Work}\label{sec:related}
+\input{sections/related_work}
+
+\section{Discussion and Limitations}\label{sec:discussion}
+\input{sections/discussion}
+
+\section*{Acknowledgements}
+The external analyses in this paper required no new generation, because
+others released their samples completely. We thank
+\citet{singhi2025solveverify} for publishing per-problem solution dumps
+that keep every attempt --- failures included --- at 256 samples per
+problem; that design choice is what made the within-problem control of
+Section~\ref{sec:results-prediction} possible. We likewise thank the
+Hugging Face Open-R1 team for releasing OpenR1-Math-220k
+\citep{openr1math} with per-generation correctness annotations rather
+than a correct-only filter. We encourage the practice: unfiltered,
+multi-sample rollout releases are reusable scientific instruments. This
+study also builds on the MATH \citep{hendrycks2021math} and GPQA
+\citep{rein2023gpqa} benchmarks and on open-weight models and tooling
+(MLX and the mlx-community quantizations, scikit-learn, Hugging Face
+datasets). AI assistance was used for coding and writing; all
+experimental decisions, protocol freezes, and final claims were reviewed
+by and are the responsibility of the author.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\section{Protocol Amendments and Pre-Registration Timeline}\label{app:amendments}
+\input{sections/appendix_amendments}
+
+\section{Additional Figures and Sensitivity Analyses}\label{app:extra}
+\input{sections/appendix_extra}
+
+\end{document}

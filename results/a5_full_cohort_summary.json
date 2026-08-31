@@ -1,0 +1,62 @@
+{
+  "budget": 1024,
+  "conservative_disagreements_d050": [],
+  "cross_model_top_class_agreement": "42/89",
+  "delta_sensitivity_counts": {
+    "delta_0.25": 7,
+    "delta_0.5": 3,
+    "delta_0.75": 2
+  },
+  "primary_delta": 0.5,
+  "regime_counts": {
+    "gemma4": {
+      "budget_limited": 4,
+      "instant_prefix_advantaged": 1,
+      "instant_scratch_solvable": 25,
+      "no_crossing_at_primary_delta": 3,
+      "prefix_limited": 1,
+      "unsolved_hard": 55
+    },
+    "ministral3": {
+      "budget_limited": 33,
+      "instant_prefix_advantaged": 3,
+      "instant_scratch_solvable": 14,
+      "no_crossing_at_primary_delta": 2,
+      "terminal_A1": 8,
+      "unsolved_hard": 29
+    }
+  },
+  "t_v_events_primary": [
+    {
+      "cohort": "dev",
+      "level": 4,
+      "max_advantage": 0.75,
+      "model": "gemma4",
+      "problem_id": "math_03159_7e3faf8d9130",
+      "regime": "prefix_limited",
+      "t_f_1024": 896.0,
+      "t_v_d050": 896.0
+    },
+    {
+      "cohort": "dev",
+      "level": 4,
+      "max_advantage": 0.548,
+      "model": "ministral3",
+      "problem_id": "math_03159_7e3faf8d9130",
+      "regime": "budget_limited",
+      "t_f_1024": 768.0,
+      "t_v_d050": 768.0
+    },
+    {
+      "cohort": "supplement",
+      "level": 2,
+      "max_advantage": 0.902,
+      "model": "ministral3",
+      "problem_id": "math_02814_7fdbd1234d96",
+      "regime": "budget_limited",
+      "t_f_1024": 320.0,
+      "t_v_d050": 320.0
+    }
+  ],
+  "tau": 0.75
+}

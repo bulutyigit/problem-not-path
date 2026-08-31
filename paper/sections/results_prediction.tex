@@ -1,0 +1,162 @@
+% Results II — full prose v1.
+
+\subsection{A pre-registered, difficulty-controlled null}
+
+Can the first tokens of a run predict its outcome beyond what the problem
+itself predicts? We froze the answer procedure before evaluating it:
+endpoints (primary: eventual success of the 16K run; secondary:
+scratch-solvability at 4{,}096, i.e.\ $\Rhat(4{,}096) \ge \tauthr$ on
+non-instant cells), feature sets (a question-only baseline versus the same baseline plus
+fifteen frozen early-window dynamics summaries --- entropy, surprisal,
+successive divergences, hidden-state geometry, spectral summaries over the
+first 512 tokens; defined in Appendix~\ref{app:signals}), a logistic model, problem-grouped cross-validation on
+train+validation, per-class power gates, and the success criterion: the
+paired $\Delta$AUROC's problem-clustered 95\% CI must exclude zero. The
+question-only baseline contains no signal from the run: the frozen
+difficulty columns are the benchmark's human difficulty level, the topic
+category, and five surface statistics of the problem text (character
+count, whitespace-token count, and counts of numeric, operator, and
+equation tokens), plus the model's identity --- everything knowable before
+the first token is generated, at text level (a pre-generation
+\emph{activation} probe would be a stronger baseline still
+\citep{lugoloobi2026}; see Limitations). The test split was then evaluated
+once.
+
+Neither endpoint met the criterion (Figure~\ref{fig:conf}). Primary:
+baseline AUROC $0.83$ versus $0.85$ with early signals, $\Delta = +0.026$
+$[-0.054, +0.167]$. Secondary: baseline $0.88$ versus $0.78$,
+$\Delta = -0.090$ $[-0.213, +0.033]$ --- the early features \emph{hurt}
+out of sample, the signature of uninformative predictors. A level-free
+sensitivity variant agrees, and the within-trajectory timing endpoint
+remained below its power gate (four test-split interior events) and was
+not fit. A post-hoc sweep of the forecast point over
+$t \in \{128, 256, 1{,}024, 2{,}048\}$ --- labeled post-hoc in the
+amendment --- found 8 of 10 point estimates negative and every CI
+straddling zero (Figure~\ref{fig:sweep}): the null is not an artifact of
+the chosen window.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{confirmatory_auroc}
+\caption{The confirmatory test: single evaluation on the held-out split.
+Neither endpoint's $\Delta$AUROC CI excludes zero.}
+\label{fig:conf}\end{figure}
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{early_signal_prefix_sweep}
+\caption{Post-hoc forecast-point sweep: no window rescues the early
+signals.}
+\label{fig:sweep}\end{figure}
+
+Why the null has this shape is visible in the per-model split: the
+difficulty baseline alone is near-perfect for Gemma-3n (test AUROC $1.0$
+on both endpoints) and mediocre for Ministral-3 ($0.63$--$0.73$).
+Difficulty fully determines the capability-limited model's fate, while the
+budget-elastic model's outcomes carry residual stochastic variance --- the
+band of Section~\ref{sec:results-regimes} --- that neither difficulty nor
+early dynamics explain.
+
+\subsection{Why pooled evaluation cannot see within-attempt information}
+
+The confound has a simple formal core. Fix a problem--model cell $c$ and
+treat attempts as exchangeable given the cell: attempt $j$ has outcome
+$Y_{c,j} \in \{0,1\}$ with $\Pr(Y_{c,j} = 1) = p_c$. Call a predictor
+\emph{question-only} if its score depends on the cell alone,
+$S_{c,j} = f(c)$; the leave-one-out pass rate
+$\hat d_{c,j} = \frac{1}{k_c - 1} \sum_{i \ne j} Y_{c,i}$ is the canonical
+example --- unbiased for $p_c$ and independent of attempt $j$'s own
+outcome. AUROC is a probability over discordant pairs,
+$\mathrm{AUROC}(S) = \Pr(S_a > S_b \mid Y_a = 1, Y_b = 0) + \tfrac{1}{2}
+\Pr(S_a = S_b \mid \cdot)$, and splitting the pairs by whether they share
+a cell gives
+\begin{equation}
+\mathrm{AUROC}_{\mathrm{pooled}}(S) \;=\; \lambda \,
+\mathrm{AUROC}_{\mathrm{within}}(S) \;+\; (1 - \lambda)\,
+\mathrm{AUROC}_{\mathrm{between}}(S),
+\label{eq:decomp}
+\end{equation}
+where $\lambda$ is the fraction of discordant pairs drawn from the same
+cell. Two consequences follow. First, every question-only predictor has
+$\mathrm{AUROC}_{\mathrm{within}} = \tfrac{1}{2}$ exactly (its score is
+constant within a cell, so all within-cell pairs are ties): within-cell
+evaluation isolates precisely the information that a difficulty
+measurement cannot carry. Second, in the standard design with one attempt
+per problem ($k_c = 1$), $\lambda = 0$ identically --- a pooled AUROC then
+evaluates only between-cell ranking, a task for which ranking by $p_c$ is
+optimal among question-only scores under exchangeability, and is
+\emph{structurally incapable} of detecting within-attempt signal, however
+high it reads. The published early-window positives are of this form (one trajectory per problem). The two
+designs in this section are the two escapes Eq.~\eqref{eq:decomp} allows:
+with $k_c = 1$ the within component is inaccessible and the only recourse
+is \emph{incremental} value over an explicit question-only baseline (our
+confirmatory test above); with $k_c \gg 1$ the within component becomes
+directly estimable (the dissection below). One bookkeeping fact used
+there: within a cell with $S_c = \sum_i Y_{c,i}$ successes, the LOO score
+takes exactly two values, $(S_c - 1)/(k_c - 1)$ for a correct attempt and
+$S_c/(k_c - 1)$ for an incorrect one, ranking every incorrect attempt
+above every correct one --- its within-AUROC is mechanically $0$, and the
+neutral reference for ``no within-attempt information'' is $\tfrac{1}{2}$.
+
+\subsection{The ceiling exists in the literature's own regime}
+
+Our cohort is small, so we asked the same question of public data at
+scale. On 192{,}315 DeepSeek-R1 generations over 91{,}573 problems
+\citep{openr1math}, a question-only predictor --- the leave-one-out pass
+rate of the problem's \emph{other} attempts, for 92\% of problems a single
+binary observation --- achieves AUROC $0.873$ $[0.870, 0.876]$
+(problem-clustered bootstrap; estimator frozen before evaluation, and
+conservative by construction since dataset curation truncates the
+difficulty range). That places a question-only signal squarely inside the
+$0.79$--$0.95$ range that internal-state probe papers report
+\citep{zhang2025knowright, yuan2026diagnostic, sun2026trajectories,
+david2025temporal, lugoloobi2026} --- none of which report a question-only
+baseline (Figure~\ref{fig:ceiling}). Nor is the ceiling a mathematics
+artifact: on 16{,}384 public GPQA-diamond \citep{rein2023gpqa} samples (64 questions $\times$
+256 attempts, Llama-3.3-70B \citep{singhi2025solveverify}), the same
+estimator reaches $0.917$ $[0.875, 0.938]$ --- despite a four-way
+multiple-choice guessing floor that attenuates, never inflates, it.
+
+\begin{figure}[t]\centering
+\includegraphics[width=.9\linewidth]{difficulty_ceiling_openr1}
+\caption{A question-only signal on public DeepSeek-R1 generations reaches
+AUROC 0.873 --- inside the published probe range.}
+\label{fig:ceiling}\end{figure}
+
+\subsection{Dissecting a probe positive in the strong-proponents' regime}
+
+Finally, we replicated and then dissected the closest published
+early-window positive, using public data and no generation: 128 MATH
+problems with 256 R1-Distill-Qwen-7B samples each
+\citep{singhi2025solveverify}, re-scored by
+teacher-forcing the dump's own tokens through the 4-bit model (top-1
+fidelity $0.906$; protocol frozen before extraction). The 256-per-problem
+design permits the control no published positive can run: evaluating the
+\emph{same} probe within problem, where difficulty is held fixed by
+construction.
+
+The uncontrolled result replicates: a last-four-token hidden-state probe
+at $t = 4$ reaches pooled AUROC $0.849$ $[0.735, 0.919]$, matching the
+$0.84$ reported by \citet{david2025temporal}. The same probe, on the same
+trajectories, evaluated within problem --- the $\lambda$-pure component of
+Eq.~\eqref{eq:decomp} --- sits at $0.496$ $[0.466, 0.527]$
+--- chance --- and remains at chance at every one of ten anchors from
+$t = 4$ to $512$ (Figure~\ref{fig:dissect}). The entire positive is
+problem identity, far below this dump's 255-sample difficulty ceiling of
+$0.974$. Moreover, with sample composition held fixed, the pooled AUROC
+itself collapses --- indistinguishable from chance by $t = 16$ ($0.586$,
+CI straddling $0.5$) and $\approx 0.55$ from $t = 32$ onward: the
+difficulty content readable from last-token states is a prompt echo that
+fades as generation proceeds. This reconciles three observations in the literature ---
+declining probe signal at larger reasoning budgets \citep{lugoloobi2026},
+question-only probes that work before generation
+\citep{cencerrado2025noanswer}, and the practice of probing at special
+intermediate-\emph{answer} positions rather than arbitrary early positions
+\citep{zhang2025knowright} --- under a single reading: hidden states
+encode the problem, and increasingly do not encode it, rather than
+encoding the fate of the attempt.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\linewidth]{math128_probe_dissection}
+\caption{Same probe, two evaluations, 6{,}480 public R1-Distill-7B
+trajectories: the pooled positive replicates at $t=4$ and is chance within
+problem at every anchor.}
+\label{fig:dissect}\end{figure}

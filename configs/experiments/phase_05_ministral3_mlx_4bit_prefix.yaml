@@ -1,0 +1,36 @@
+experiment_id: phase_05_ministral3_mlx_4bit_prefix
+phase_id: phase_05
+prompt_version: v1
+output_subdirectory: ministral3_mlx_4bit
+model:
+  key: ministral3_3b_mlx_4bit
+  model_id: mlx-community/Ministral-3-3B-Reasoning-2512-4bit
+  source_model_id: mistralai/Ministral-3-3B-Reasoning-2512
+  backend: mlx_vlm
+  revision: null
+  adapter: ministral3
+  trust_remote_code: false
+  dtype: int4
+  mode: reasoning
+  reasoning_budget: null
+  reasoning_budget_policy: none
+  final_answer_reserve: 512
+  max_prompt_tokens: 4096
+  max_new_tokens: 1024
+  hidden_state_stride: 8
+  capture_hidden_states: true
+  sampling:
+    temperature: 0.6
+    top_p: 0.95
+    top_k: 20
+    min_p: 0.0
+    do_sample: true
+    repetition_penalty: 1.0
+    presence_penalty: 0.0
+datasets:
+  - name: harp
+    split: external_test
+    sample_size: 60
+    seed: 20260822
+    levels: [1, 2, 3, 4, 5, 6]
+seeds: [41]

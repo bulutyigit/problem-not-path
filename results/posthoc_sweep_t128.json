@@ -1,0 +1,276 @@
+{
+  "amendment": "2026-08-27-phase-05-confirmatory-early-signal-test",
+  "assembly": {
+    "excluded_short_runs": [],
+    "included_cells": 178,
+    "labeled_cells": 178
+  },
+  "features_sha256": {
+    "artifacts/mac_mlx/phase_04b/features/features_prefix_128.parquet": "217fdecd69fab5bd9055b49dbe806f4ad49884ef395399ef43f1f2b3ec121b0a",
+    "artifacts/mac_mlx/phase_04c/expansion/wave3_features_sweep/features_prefix_128.parquet": "ce809949e590fb0f4c495f18d8d1aafa15ee99b9551524d083fe586a8ee6b716"
+  },
+  "forecast_token": 128,
+  "horizon": {
+    "endpoint": "horizon_within_512",
+    "interior_event_cells_by_split": {
+      "test": 4,
+      "train": 14,
+      "validation": 3
+    },
+    "note": "far below the >=5 problem groups per class per fold requirement",
+    "verdict": "underpowered_not_fit"
+  },
+  "labels_sha256": "7b4105b286e4b52e5b4806641f66bfcdbdc80bca536b03cf3079e9d3c855936c",
+  "primary": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 1.0,
+        "ci_low": 0.3636
+      },
+      "delta": {
+        "ci_high": 0.016,
+        "ci_low": -0.2807
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.983,
+        "ci_low": 0.2727
+      },
+      "skipped_single_class_draws": 67
+    },
+    "endpoint": "primary_eventual_success",
+    "level_free": false,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.7356,
+      "early_blocks": 0.7533
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 1.0,
+        "n": 17
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.6667,
+        "auroc_early_blocks": 0.5238,
+        "n": 17
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 18,
+        "1": 71
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 17,
+      "trainval": 72
+    },
+    "rows": {
+      "test": 34,
+      "trainval": 144
+    },
+    "success_criterion_met": false,
+    "target": "eventual_success",
+    "test_auroc": {
+      "early_baseline": 0.8,
+      "early_blocks": 0.7167
+    },
+    "test_class_counts": {
+      "0": 4,
+      "1": 30
+    },
+    "test_delta_auroc": -0.0833
+  },
+  "primary_level_free": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 1.0,
+        "ci_low": 0.6875
+      },
+      "delta": {
+        "ci_high": -0.0156,
+        "ci_low": -0.4396
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.9844,
+        "ci_low": 0.3125
+      },
+      "skipped_single_class_draws": 67
+    },
+    "endpoint": "primary_eventual_success",
+    "level_free": true,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.7406,
+      "early_blocks": 0.7213
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 1.0,
+        "n": 17
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.8333,
+        "auroc_early_blocks": 0.5238,
+        "n": 17
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 18,
+        "1": 71
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 17,
+      "trainval": 72
+    },
+    "rows": {
+      "test": 34,
+      "trainval": 144
+    },
+    "success_criterion_met": false,
+    "target": "eventual_success",
+    "test_auroc": {
+      "early_baseline": 0.9083,
+      "early_blocks": 0.7417
+    },
+    "test_class_counts": {
+      "0": 4,
+      "1": 30
+    },
+    "test_delta_auroc": -0.1666
+  },
+  "secondary": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 0.9815,
+        "ci_low": 0.7647
+      },
+      "delta": {
+        "ci_high": 0.0476,
+        "ci_low": -0.2738
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.9481,
+        "ci_low": 0.5592
+      },
+      "skipped_single_class_draws": 0
+    },
+    "endpoint": "secondary_scratch_4096",
+    "level_free": false,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.7888,
+      "early_blocks": 0.7635
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 0.3,
+        "n": 11
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.7292,
+        "auroc_early_blocks": 0.6042,
+        "n": 14
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 52,
+        "1": 28
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 14,
+      "trainval": 61
+    },
+    "rows": {
+      "test": 25,
+      "trainval": 110
+    },
+    "success_criterion_met": false,
+    "target": "scratch_solvable_4096",
+    "test_auroc": {
+      "early_baseline": 0.875,
+      "early_blocks": 0.7569
+    },
+    "test_class_counts": {
+      "0": 16,
+      "1": 9
+    },
+    "test_delta_auroc": -0.1181
+  },
+  "secondary_level_free": {
+    "clustered_bootstrap": {
+      "baseline": {
+        "ci_high": 0.947,
+        "ci_low": 0.7407
+      },
+      "delta": {
+        "ci_high": 0.0261,
+        "ci_low": -0.3125
+      },
+      "draws": 2000,
+      "early_blocks": {
+        "ci_high": 0.9196,
+        "ci_low": 0.4837
+      },
+      "skipped_single_class_draws": 0
+    },
+    "endpoint": "secondary_scratch_4096",
+    "level_free": true,
+    "oof_auroc_trainval": {
+      "early_baseline": 0.7957,
+      "early_blocks": 0.7548
+    },
+    "per_model_descriptive": {
+      "gemma4_e4b_mlx_4bit": {
+        "auroc_baseline": 1.0,
+        "auroc_early_blocks": 0.1,
+        "n": 11
+      },
+      "ministral3_3b_mlx_4bit": {
+        "auroc_baseline": 0.625,
+        "auroc_early_blocks": 0.5,
+        "n": 14
+      }
+    },
+    "power_gate": {
+      "problem_groups_per_class": {
+        "0": 52,
+        "1": 28
+      },
+      "required_per_class": 5,
+      "verdict": "pass"
+    },
+    "problems": {
+      "test": 14,
+      "trainval": 61
+    },
+    "rows": {
+      "test": 25,
+      "trainval": 110
+    },
+    "success_criterion_met": false,
+    "target": "scratch_solvable_4096",
+    "test_auroc": {
+      "early_baseline": 0.8403,
+      "early_blocks": 0.7153
+    },
+    "test_class_counts": {
+      "0": 16,
+      "1": 9
+    },
+    "test_delta_auroc": -0.125
+  }
+}

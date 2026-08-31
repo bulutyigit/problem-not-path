@@ -1,0 +1,84 @@
+% Method — full prose v1.
+
+\subsection{Setup}
+
+We study two small open-weight models with distinct architectures and
+training pipelines, Gemma-3n E4B and Ministral-3 3B, run locally in 4-bit
+MLX quantization with full token-level instrumentation (per-token logits
+and final-layer hidden states). Problems come from the MATH benchmark \citep{hendrycks2021math}.
+Because breakthrough measurement is only informative on problems a model
+sometimes solves, cohorts were selected by outcome-blind
+intermediate-difficulty screens, frozen before any probe outcome existed: a
+development cohort (20 problems), a supplement cohort (20), and an expansion
+cohort (49) whose screen was repaired after a recorded gate failure
+(App.~\ref{app:amendments}). Together they yield 89 problems and $89 \times
+2 = 178$ problem--model cells. Each cell has one instrumented base
+trajectory generated with a 16{,}384-token budget. Research splits (54
+train / 18 validation / 17 test problems) were assigned before any outcome
+was observed; the test split is spent exactly once, in
+Section~\ref{sec:results-prediction}.
+
+\subsection{Truncation probe and the budget-fit time \Tf}
+
+The probe follows the truncation-and-resampling tradition
+\citep{lanham2023,bogdan2025anchors}: truncate the model's \emph{own}
+trajectory at an anchor $t$ (log-spaced from 16 to 8{,}192 tokens), and
+sample $m=4$ continuations from the truncated prefix under a fixed budget
+of $B = 1{,}024$ reasoning tokens plus a 512-token answer reserve, with
+deterministic per-branch seeds. The per-anchor solve rate
+$\phat(t; B)$ estimates the value of the partial state. A
+\emph{breakthrough} is the first anchor with $\phat \ge \tauthr$
+($\tauthr = 0.75$) that remains above threshold at the next anchor;
+crossings are refined by bisection and recorded as intervals, and
+trajectories whose curve never crosses are right-censored at their final
+anchor. We call the resulting time \Tf$(B)$, the \emph{budget-fit time}:
+the point at which a solution first fits the continuation budget. As
+Section~\ref{sec:results-regimes} shows, \Tf{} is what an uncontrolled
+probe reports as a breakthrough --- and it conflates two very different
+things.
+
+\subsection{Restart control and the prefix-value time \Tv}
+
+To separate ``the prefix carries value'' from ``the budget became
+sufficient,'' we measure each problem's \emph{restart curve} $R(C)$: the
+solve rate of from-scratch attempts (empty prefix, same prompt) at budgets
+$C \in \{1{,}024, 2{,}048, 4{,}096, 8{,}192\}$, four attempts each, with
+$\Rhat$ interpolated log-linearly between grid points. The
+\emph{advantage} of a prefix at matched total compute is
+$\mathrm{adv}(t) = \phat(t; B) - \Rhat(t + B)$, and the prefix-value time
+$\Tv(\delta)$ is the earliest stable anchor with $\phat \ge \tauthr$ and
+$\mathrm{adv} \ge \delta$ (primary margin $\delta = 0.5$; $0.25$ and
+$0.75$ reported as sensitivity, along with a conservative variant that
+takes the upper envelope of the bracketing grid values of $\Rhat$). Cells
+are then classified by frozen precedence: \emph{instant} (event interval
+upper bound $\le 16$ tokens), \emph{budget-limited} ($\Rhat(4{,}096) \ge
+\tauthr$: a restart solves it), \emph{prefix-limited} (a $\delta = 0.5$
+crossing exists), \emph{no-crossing} (\Tf{} exists but no advantage
+crossing), \emph{terminal} (a replicated event at the final anchor with no
+stability anchor; annotated, never promoted to \Tv), and \emph{unsolved}.
+
+\subsection{Noise hardening}
+
+With $m = 4$, a $3/4$ crossing occurs with probability $0.31$ under a true
+success rate of $0.5$, so single-shot labels are optimistic. Two frozen
+rules harden them. First, threshold-censored trajectories (final-anchor
+rate $\ge \tauthr$, no stability anchor available) get four additional
+branches, and a terminal event is recorded only if the pooled rate reaches
+$\ge 6/8$ (under $p = 0.5$ this has probability $0.14$). Second, every
+ambiguous cell ($1$--$3$ successes of $4$) across the expansion cohort was
+enlarged to eight attempts before labels were derived (148 cells). Both
+rules cut in both directions in practice: replication confirmed 13 of 16
+candidates for one model and rejected the other model's single candidate,
+and pooling removed six events while adding one.
+
+\subsection{Pre-registration discipline}
+
+Every decision rule above was frozen in written, committed amendments
+before the outcomes it governs were observed; gate failures (two cohort
+gates and one pilot gate) are recorded as failures and resolved by
+amendment, never by relabeling. The confirmatory prediction protocol of
+Section~\ref{sec:results-prediction} --- endpoints, feature sets, model
+class, power gates, and success criterion --- was committed before the
+single test-split evaluation, and every post-hoc analysis is labeled as
+such in the amendment that reports it. Appendix~\ref{app:amendments} gives
+the full timeline.

@@ -1,0 +1,184 @@
+% Appendix B — additional figures, tables, sensitivity analyses.
+
+\subsection{Early-window signal definitions}\label{app:signals}
+
+For each generated token $t$ let $p_t$ be the model's next-token
+distribution over vocabulary $V$ at the position that emits token $x_t$,
+and $h_t \in \mathbb{R}^d$ the final-layer hidden state at that position.
+The instrumented token-level series are:
+\begin{align*}
+\tilde H_t &= -\frac{1}{\log \lvert V\rvert} \sum_{v \in V} p_t(v)\, \log p_t(v)
+  && \text{normalized entropy}\\[3pt]
+u_t &= -\log p_t(x_t)
+  && \text{surprisal}\\[3pt]
+\mu_t &= p_t^{(1)} - p_t^{(2)}
+  && \text{top-1/top-2 probability margin}\\[3pt]
+\mathrm{KL}_t &= \mathrm{KL}\bigl(p_t \,\big\|\, p_{t-1}\bigr)
+  && \text{successive KL divergence}\\[3pt]
+\mathrm{JS}_t &= \tfrac{1}{2}\,\mathrm{KL}\bigl(p_t \,\big\|\, m_t\bigr)
+  + \tfrac{1}{2}\,\mathrm{KL}\bigl(p_{t-1} \,\big\|\, m_t\bigr),
+  \quad m_t = \tfrac{1}{2}\bigl(p_t + p_{t-1}\bigr)
+  && \text{successive JS divergence}\\[3pt]
+\nu_t &= \lVert h_t \rVert
+  && \text{hidden-state norm}\\[3pt]
+\rho_t &= \lVert h_t - h_{t-1} \rVert \big/ \lVert h_{t-1} \rVert
+  && \text{relative hidden step}\\[3pt]
+\gamma_t &= 1 - \cos\bigl(h_t,\, h_{t-1}\bigr)
+  && \text{cosine drift}
+\end{align*}
+Over the forecast window ($t \le 512$), each series is reduced by simple
+statistics: the mean and standard deviation; the \emph{robust slope}, a
+Theil--Sen estimator (median of pairwise slopes, evaluated on at most 512
+evenly spaced points for bounded cost); and for surprisal the maximum
+one-step rise $\max_t (u_{t+1} - u_t)$. Spectral summaries are computed on
+the $\mathrm{JS}_t$ series: robust-standardize by median and median
+absolute deviation, resample to 256 points, apply a Hann window, take the
+real FFT power spectrum with the DC term removed, and normalize to
+$\pi_f$; then
+\[
+\mathrm{SpecEnt} = -\tfrac{1}{\log F} \textstyle\sum_f \pi_f \log \pi_f,
+\qquad
+\mathrm{Centroid} = \textstyle\sum_f f\, \pi_f,
+\qquad
+\mathrm{LowRatio} = \textstyle\sum_{f \le 0.10} \pi_f .
+\]
+The fifteen frozen summaries of Section~\ref{sec:results-prediction} are:
+$\mathrm{mean}(\tilde H)$, $\mathrm{sd}(\tilde H)$,
+$\mathrm{slope}(\tilde H)$; $\mathrm{mean}(u)$, $\max$-rise$(u)$;
+$\mathrm{mean}(\mu)$; $\mathrm{mean}(\mathrm{JS})$,
+$\mathrm{sd}(\mathrm{JS})$, $\mathrm{slope}(\mathrm{KL})$;
+$\mathrm{mean}(\rho)$, $\mathrm{mean}(\gamma)$, $\mathrm{slope}(\nu)$;
+and $\mathrm{SpecEnt}$, $\mathrm{Centroid}$, $\mathrm{LowRatio}$ of
+$\mathrm{JS}_t$. The public-dump probes of
+Section~\ref{sec:results-prediction} reuse the unnormalized entropy,
+$u_t$, and top-1 probability series from teacher-forced forwards (the
+normalization constant is fixed within a model and immaterial after
+standardization).
+
+\subsection{The budget falsification that motivated the restart control}
+
+Figure~\ref{fig:budgetfals} shows the A2 experiment behind
+Section~\ref{sec:results-regimes}: development-cohort cells re-probed at a
+4{,}096-token continuation budget with paired seeds. Ministral-3's
+apparent mid-trajectory crossings dissolve --- 16-token prefixes solve at
+the larger budget --- while Gemma-3n's early crossings remain pinned,
+validating them as genuine.
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{budget_falsification}
+\caption{A2 budget sensitivity: the same cells probed at $B = 1{,}024$
+versus $B = 4{,}096$. Ministral-3's ``breakthroughs'' are budget
+artifacts; Gemma-3n's survive.}
+\label{fig:budgetfals}\end{figure}
+
+\subsection{Per-trajectory intervals and label hardening}
+
+Figure~\ref{fig:swimmer} shows every expansion-cohort trajectory's
+breakthrough interval or censoring bound; Figure~\ref{fig:hardening} shows
+what the noise-hardening rules changed. Terminal replication confirmed 13
+of Ministral-3's 16 threshold-censored candidates and rejected Gemma-3n's
+single candidate; pooling ambiguous cells to eight attempts moved labels
+on $7+6$ of $49+49$ trajectories, dominated by losses (six events removed,
+one added; Gemma-3n's changes were mostly interval shifts).
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{swimmer_wave3}
+\caption{Expansion cohort, one row per trajectory: breakthrough intervals
+(solid), censoring bounds (arrows), and threshold-censored replication
+candidates (highlighted).}
+\label{fig:swimmer}\end{figure}
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{wave3_label_hardening}
+\caption{Expansion-cohort labels before and after noise hardening
+(pooling + terminal replication): trimmed, not inflated.}
+\label{fig:hardening}\end{figure}
+
+\subsection{Sensitivity of \Tv{} labels}
+
+Across all 178 cells: $\delta = 0.5$ yields 3 prefix-value events,
+$\delta = 0.25$ yields 7 (the additions all sit inside budget-limited
+cells of the budget-elastic model), $\delta = 0.75$ keeps 2. The
+conservative variant of $\Rhat$ (upper envelope of the bracketing grid
+values) agrees with the primary labels on 178 of 178 cells. Cross-model
+agreement on collapsed regime classes is 42 of 89 problems.
+
+\subsection{Confirmatory test: level-free variants and per-model detail}
+
+\begin{table}[h]\centering\small
+\begin{tabular}{llccc}
+\toprule
+Endpoint & Variant & Baseline & +Early signals & $\Delta$AUROC [95\% CI] \\
+\midrule
+Primary   & main       & 0.828 & 0.853 & $+0.026$ $[-0.054, +0.167]$ \\
+Primary   & level-free & 0.914 & 0.879 & $-0.035$ $[-0.156, +0.024]$ \\
+Secondary & main       & 0.875 & 0.785 & $-0.090$ $[-0.213, +0.033]$ \\
+Secondary & level-free & 0.840 & 0.771 & $-0.070$ $[-0.174, +0.056]$ \\
+\bottomrule
+\end{tabular}
+\caption{Held-out test AUROCs for both endpoints, with the difficulty
+level dropped from both feature sets (level-free). No variant meets the
+success criterion.}
+\label{tab:levelfree}\end{table}
+
+Per-model test-split descriptives (no per-model claims are made): on the
+primary endpoint the baseline scores 1.00 for Gemma-3n ($n{=}16$) and 0.69
+for Ministral-3 ($n{=}17$, early signals 0.76); on the secondary endpoint
+1.00 versus 0.73 ($n{=}11$, $14$). The horizon endpoint's power
+arithmetic: 21 interior events project-wide, 4 in the test split; the
+frozen gate (five problem groups per class per fold) was not met and no
+model was fit.
+
+\subsection{Public-dump dissection: full anchor table}
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rccc}
+\toprule
+$t$ & Pooled AUROC [95\% CI] & Within-problem AUROC [95\% CI] & $n$ \\
+\midrule
+4   & 0.849 $[0.735, 0.919]$ & 0.496 $[0.466, 0.527]$ & 6{,}480 \\
+8   & 0.678 $[0.503, 0.835]$ & 0.481 $[0.461, 0.502]$ & 6{,}480 \\
+16  & 0.586 $[0.461, 0.706]$ & 0.495 $[0.467, 0.526]$ & 6{,}480 \\
+32  & 0.561 $[0.422, 0.702]$ & 0.525 $[0.494, 0.555]$ & 6{,}480 \\
+64  & 0.582 $[0.442, 0.706]$ & 0.481 $[0.451, 0.510]$ & 6{,}480 \\
+128 & 0.548 $[0.425, 0.664]$ & 0.515 $[0.491, 0.542]$ & 6{,}480 \\
+192 & 0.572 $[0.421, 0.706]$ & 0.499 $[0.466, 0.525]$ & 6{,}478 \\
+256 & 0.565 $[0.406, 0.684]$ & 0.530 $[0.476, 0.591]$ & 6{,}476 \\
+384 & 0.547 $[0.432, 0.650]$ & 0.509 $[0.482, 0.537]$ & 6{,}294 \\
+512 & 0.547 $[0.428, 0.656]$ & 0.497 $[0.468, 0.526]$ & 6{,}102 \\
+\bottomrule
+\end{tabular}
+\caption{Hidden-state probe on public R1-Distill-7B trajectories at every
+anchor: pooled versus within-problem evaluation (problem-clustered
+bootstrap CIs). References: LOO pass-rate pooled AUROC 0.974; stream-summary
+probe at $t{=}4$: pooled 0.647, within 0.490. Within-problem estimates use
+the 22 mid-band problems (failure weight 2{,}178). The within-problem AUROC
+of the LOO pass rate itself is mechanically 0 (within a problem it takes
+two values, and the incorrect row's is always higher), so the interpretive
+reference for ``no within-attempt information'' is 0.5.}
+\label{tab:dissect}\end{table}
+
+Numerical robustness: the float32 battery reproduces in float64 with zero
+NaN out-of-fold predictions; scikit-learn overflow warnings trace to
+near-constant standardized dimensions and are cosmetic. Teacher-forcing
+fidelity: mean top-1 agreement 0.906 (10th percentile 0.859).
+
+\subsection{Post-hoc forecast-point sweep: full table}
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rcccc}
+\toprule
+$t$ & Primary $\Delta$ [95\% CI] & $n$ & Secondary $\Delta$ [95\% CI] & $n$ \\
+\midrule
+128    & $-0.083$ $[-0.281, +0.016]$ & 34 & $-0.118$ $[-0.274, +0.048]$ & 25 \\
+256    & $+0.092$ $[-0.032, +0.384]$ & 34 & $-0.035$ $[-0.133, +0.053]$ & 25 \\
+512*   & $+0.026$ $[-0.054, +0.167]$ & 33 & $-0.090$ $[-0.213, +0.033]$ & 25 \\
+1{,}024 & $-0.125$ $[-0.409, 0.000]$ & 24 & $-0.137$ $[-0.287, +0.018]$ & 22 \\
+2{,}048 & $-0.133$ $[-0.364, 0.000]$ & 13 & $-0.259$ $[-0.800, 0.000]$ & 12 \\
+\bottomrule
+\end{tabular}
+\caption{$\Delta$AUROC (early signals $-$ baseline) at every forecast
+point; * marks the pre-registered evaluation, all others post-hoc. Larger
+prefixes also shrink and select the sample (only runs surviving to $t$
+enter).}
+\label{tab:sweep}\end{table}
