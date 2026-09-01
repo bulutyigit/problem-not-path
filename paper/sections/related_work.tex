@@ -105,9 +105,11 @@ within-problem effect sizes fall as low as $d{=}0.13$), while
 \citet{lugoloobi2026} probe strictly before generation and themselves
 conclude that activations encode model-specific \emph{difficulty}. Our
 pre-registered, single-shot test supplies the missing control at the point
-where it bites: over forecast windows of 128--2{,}048 tokens, frozen
+where it bites: frozen
 summary features of the run's internal dynamics add no detectable AUROC
-over a difficulty baseline on held-out problems --- consistent with reports that
+over a difficulty baseline on held-out problems at the pre-registered
+forecast point, and a labeled post-hoc sweep finds no rescuing window
+from 128 to 2{,}048 tokens --- consistent with reports that
 correct and incorrect trajectories diverge late \citep{sun2026trajectories},
 that trajectory geometry remains systematically coupled to difficulty once
 length is residualized \citep{gjolbye2026}, and that difficulty-driven sample composition contaminates position-wise

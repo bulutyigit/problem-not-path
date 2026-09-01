@@ -12,12 +12,15 @@ Our claims, for reference:
   artifacts; 1/178 genuine prefix-limited cell.
 - C3 (dose-response): restart curves separate compute-starved vs
   capability-limited failure modes per model.
-- C4 (compression): at matched total compute own-prefix beats restart 11/13,
-  large-budget restart catches up 11/13 — compression, not unlock.
+- C4 (compression): own-prefix beats restart in all 9 exactly-matched cells
+  (2 wins / 2 ties on boundary proxies); restart@8192 reaches tau in 11/13
+  and the prefix rate in 9/13 — predominantly compression within the
+  measured budget range.
 - C5 (stochastic band): ~1/3 of ambiguous states genuinely intermediate
   (0.3–0.6 at n=8).
-- C6 (prediction negative): pre-registered, difficulty-controlled null for
-  early internal signals at every forecast point 128–2048.
+- C6 (prediction negative): pre-registered, difficulty-controlled null at
+  the frozen forecast point (t=512); labeled post-hoc sweep finds no
+  rescuing window in 128–2048.
 
 ## Area 1 — truncation / resampling probes (agent verdict)
 
@@ -135,7 +138,7 @@ will raise Sequential Edge and Snell first.**
 |---|---|---|---|
 | Snell et al. 2024 (arXiv:2408.03314) | Revision-finetuned model conditions on ≤4 previous COMPLETE answers; compute-optimal sequential/parallel ratios per difficulty bin | Full answers, not truncated in-flight prefixes; bin-level not per-problem; needs revision finetuning | MEDIUM |
 | Sequential Edge (Sharma & Chopra 2025, arXiv:2511.02309) | Matched-compute: sequential refinement beats parallel self-consistency in 95.6% configs; inverse-entropy voting | Closest matched-compute precedent, aggregate level, complete-answer conditioning | MEDIUM |
-| Performance Gap Parallel vs Sequential (2026, arXiv:2604.05868) | Why parallel beats sequential (reduced exploration / induction-head copying) | OPPOSITE sign of our 11/13 — engage: their sequential arm is answer-conditioned re-solving, not prefix continuation | MEDIUM |
+| Performance Gap Parallel vs Sequential (2026, arXiv:2604.05868) | Why parallel beats sequential (reduced exploration / induction-head copying) | OPPOSITE sign of our matched-compute prefix advantage (9/9 in-grid) — engage: their sequential arm is answer-conditioned re-solving, not prefix continuation | MEDIUM |
 | Think Again or Think Longer? (2026, arXiv:2606.19808) | Verification-triggered re-attempt vs longer initial solve as budget allocation | Verifier-gated re-solve, no truncation anchors, no dose-response | MEDIUM |
 | Why Retrying Fails (Yang 2026, arXiv:2605.08563) | Context contamination makes agent retries non-IID; budget-allocation theorem | Agent pipelines; published quantitative restart-value evidence — cite | MEDIUM |
 | Ghosal et al. NeurIPS 2025 (arXiv:2506.04210) | Extend-vs-parallel at matched budget; extension helps then hurts | Aggregate; wait-forcing extension, not prefix-vs-restart probes | MEDIUM |

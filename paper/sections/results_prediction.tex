@@ -145,7 +145,8 @@ problems with 256 R1-Distill-Qwen-7B samples each
 \citep{singhi2025solveverify}, re-scored by
 teacher-forcing the dump's own tokens through the 4-bit model (top-1
 fidelity $0.906$; protocol frozen before extraction). The 256-per-problem
-design permits the control no published positive can run: evaluating the
+design permits the control the published early-window positives do not
+report: evaluating the
 \emph{same} probe within problem, where difficulty is held fixed by
 construction.
 
@@ -171,8 +172,9 @@ pass rate of its problem's 255 \emph{other} attempts (the surrogate
 $\hat d_{c,j}$ introduced with Eq.~\eqref{eq:decomp}, computed from the
 full 32{,}768-sample verification table rather than the extracted subset)
 and evaluating on the same pooled set yields AUROC $0.981$
-$[0.955, 0.991]$. Moreover, with sample composition held fixed, the pooled AUROC
-itself collapses --- indistinguishable from chance by $t = 16$ ($0.586$,
+$[0.955, 0.991]$. Moreover, with sample composition exactly fixed through
+$t = 128$ (mild length attrition only at later anchors;
+Appendix~\ref{app:extra}), the pooled AUROC itself collapses --- indistinguishable from chance by $t = 16$ ($0.586$,
 CI straddling $0.5$) and $\approx 0.55$ from $t = 32$ onward: the
 difficulty content readable from last-token states is a prompt echo that
 fades as generation proceeds. This reconciles three observations in the literature ---
@@ -180,9 +182,9 @@ declining probe signal at larger reasoning budgets \citep{lugoloobi2026},
 question-only probes that work before generation
 \citep{cencerrado2025noanswer}, and the practice of probing at special
 intermediate-\emph{answer} positions rather than arbitrary early positions
-\citep{zhang2025knowright} --- under a single reading: hidden states
-encode the problem, and increasingly do not encode it, rather than
-encoding the fate of the attempt.
+\citep{zhang2025knowright} --- under a single reading: what a linear probe reads from last-token
+states is problem information that fades as generation proceeds, not the
+fate of the attempt.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{math128_probe_dissection}
