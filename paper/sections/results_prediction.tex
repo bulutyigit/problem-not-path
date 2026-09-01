@@ -166,8 +166,12 @@ failure-weighted and pair-weighted \emph{mean} within-problem AUROC at
 $t = 4$ at $0.527$ and $0.562$ --- bounds on these weighted-mean
 estimands, not on any single problem. The pooled positive is therefore predominantly
 --- and possibly entirely --- between-problem information, far below the
-dump's full leave-one-out difficulty ceiling of $0.981$ (pass rate of the
-255 other attempts per problem). Moreover, with sample composition held fixed, the pooled AUROC
+dump's full leave-one-out difficulty ceiling: scoring each attempt by the
+pass rate of its problem's 255 \emph{other} attempts (the surrogate
+$\hat d_{c,j}$ introduced with Eq.~\eqref{eq:decomp}, computed from the
+full 32{,}768-sample verification table rather than the extracted subset)
+and evaluating on the same pooled set yields AUROC $0.981$
+$[0.955, 0.991]$. Moreover, with sample composition held fixed, the pooled AUROC
 itself collapses --- indistinguishable from chance by $t = 16$ ($0.586$,
 CI straddling $0.5$) and $\approx 0.55$ from $t = 32$ onward: the
 difficulty content readable from last-token states is a prompt echo that
