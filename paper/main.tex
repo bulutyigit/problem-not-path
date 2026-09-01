@@ -39,15 +39,18 @@ a fixed budget measures when a solution \emph{fits the continuation budget}
 (\Tf), not whether the prefix carries value that fresh computation cannot
 buy (\Tv). We introduce a restart-controlled probe that separates the two:
 per-anchor continuation solve rates $\phat(t)$ are compared against
-from-scratch restart curves $R(C)$ at matched \emph{total} compute, with
+from-scratch restart curves $R(C)$ at matched \emph{total}
+generated-token budget, with
 interval censoring and attempt-level noise handled explicitly. Applying the
-instrument to 178 problem--model cells (89 MATH problems $\times$ two small
+instrument to 178 problem--model cells from an outcome-blind,
+difficulty-targeted cohort (89 MATH problems $\times$ two small
 open models, 16K-token instrumented traces), we find: (i) only 1 of 178
 cells survives as prefix-limited under the frozen rules (three non-instant
 cells cross the advantage margin; an in-grid restart already solves two); (ii) restart dose--response
 curves cleanly separate failure modes --- one model is compute-starved
 (solve share 0\%$\to$79\% as budget grows), the other capability-limited
-(flat); (iii) wherever matched total compute lies inside the restart grid,
+(flat across the measured budgets); (iii) wherever the matched total
+token budget lies inside the restart grid,
 continuing the model's own prefix beats restarting (9 of 9 late-crossing
 cells; 2 wins and 2 ties on four boundary proxies), yet an 8{,}192-token
 restart reaches the same threshold in 11/13 and the prefix's own success
@@ -67,8 +70,9 @@ control bites in that literature's own regime: on 192K DeepSeek-R1
 generations a trace-blind difficulty proxy (the leave-one-out pass rate of
 the problem's other attempts) reaches AUROC 0.873, inside the published
 probe range; and the closest published early-window positive
-replicates (pooled 0.849 at $t{=}4$) while sitting at chance
-\emph{within problem} at every anchor, on the 22 non-saturated problems
+replicates (pooled 0.849 at $t{=}4$) while statistically
+indistinguishable from chance \emph{within problem} at every anchor, on
+the 22 non-saturated problems
 that hold 94\% of all failures --- consistent with the pooled positive
 being predominantly, and possibly entirely, between-problem information.
 \end{abstract}

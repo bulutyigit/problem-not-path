@@ -3,10 +3,12 @@
 \subsection{Setup}
 
 We study two small open-weight models with distinct architectures and
-training pipelines --- Gemma-4 E4B (\texttt{google/gemma-4-E4B-it}) and
-Ministral-3 3B (\texttt{mistralai/Ministral-3-3B-Reasoning-2512}, an
-explicitly reasoning-tuned release) --- run locally in thinking mode, in
-4-bit MLX quantization (\texttt{mlx-community} conversions), with full
+training pipelines --- Gemma-4 E4B and Ministral-3 3B (an explicitly
+reasoning-tuned release)\footnote{\raggedright Checkpoints
+\texttt{google/gemma-4-E4B-it} and
+\texttt{mistralai/Ministral-3-3B-Reasoning-2512}, run as their
+\texttt{mlx-community} 4-bit conversions.\par} --- run locally in thinking
+mode, in 4-bit MLX quantization, with full
 token-level instrumentation (per-token logits and final-layer hidden
 states). Problems come from the MATH benchmark \citep{hendrycks2021math}.
 Because breakthrough measurement is only informative on problems a model
@@ -46,8 +48,10 @@ To separate ``the prefix carries value'' from ``the budget became
 sufficient,'' we measure each problem's \emph{restart curve} $R(C)$: the
 solve rate of from-scratch attempts (empty prefix, same prompt) at budgets
 $C \in \{1{,}024, 2{,}048, 4{,}096, 8{,}192\}$, four attempts each, with
-$\Rhat$ interpolated log-linearly between grid points. The
-\emph{advantage} of a prefix at matched total compute is
+$\Rhat$ interpolated log-linearly between grid points. Budget matching
+throughout equates \emph{generated tokens}; FLOPs, latency, and KV-cache
+reuse are not measured (Section~\ref{sec:discussion}). The
+\emph{advantage} of a prefix at matched total generated-token budget is
 $\mathrm{adv}(t) = \phat(t; B) - \Rhat(t + B)$, and the prefix-value time
 $\Tv(\delta)$ is the earliest stable anchor with $\phat \ge \tauthr$ and
 $\mathrm{adv} \ge \delta$ (primary margin $\delta = 0.5$; $0.25$ and

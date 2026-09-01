@@ -16,8 +16,12 @@ Three layers --- a pre-registered null on our cohort, a trace-blind
 difficulty ceiling inside the published range on 192K public R1
 generations, and a
 replicate-then-dissect analysis at 256 samples per problem --- support one
-conclusion: pooled probe AUROCs on reasoning outcomes are difficulty
-measurements until shown otherwise. This does not overturn any specific
+conclusion: pooled probe AUROCs on reasoning outcomes should be read as
+difficulty measurements until a question-only baseline or within-problem
+evaluation shows otherwise. The three layers carry unequal weight: the
+dissection's bound on mean within-problem AUROC is the sharpest evidence;
+the pre-registered cohort null is supporting, its primary interval
+leaving moderate effects open ($+0.167$). This does not overturn any specific
 published number. \citet{zhang2025knowright} probe intermediate-answer
 positions and their data contain within-trace label variance; our claim
 there is a falsifiable prediction: adding a question-only baseline and a
@@ -34,6 +38,9 @@ inert, coherence-driven, and difficulty-driven.
 \paragraph{Limitations.}
 Our instrumented cohort uses two small models in 4-bit quantization on one
 benchmark family, with $m = 4$--$8$ attempts per cell and one base seed;
+budget matching equates generated tokens, not FLOPs or latency
+(continuing a stored prefix amortizes its KV cache, a restart recomputes
+it, and attention cost grows with context --- none measured);
 the confirmatory baseline is text-level (a pre-generation activation probe
 would be stronger \citep{lugoloobi2026}); the public-dump dissection
 re-scores full-precision generations through a 4-bit model (top-1 fidelity

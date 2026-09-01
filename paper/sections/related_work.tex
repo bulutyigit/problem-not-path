@@ -18,12 +18,12 @@ finding that commitment rises steadily with prefix length; and
 \citet{wang2026re2}, as motivation for training models to abandon bad
 prefixes, compare continuing truncated \emph{incorrect} traces against
 re-solving from scratch --- the nearest published continue-versus-restart
-comparison, without matched total compute or per-anchor value curves. All
+comparison, without matched token budgets or per-anchor value curves. All
 of
 these estimate what a prefix \emph{leads to}; none of them ask what the
 prefix is \emph{worth} relative to not having it. Our contribution is the
 missing control: an empty-prefix restart baseline $R(C)$ at matched total
-compute, which converts per-anchor solve rates into a value measurement and
+generated-token budget, which converts per-anchor solve rates into a value measurement and
 reveals that most apparent within-trace transitions are budget artifacts.
 
 \paragraph{Rollout value estimates in process supervision.}
@@ -120,10 +120,7 @@ reduce to chance within problem (Section~\ref{sec:results-prediction}). Existing
 probes attack two other axes: their signals resist causal use
 \citep{yuan2026diagnostic}, and under contaminated prefixes they track
 coherence rather than grounded correctness \citep{pair2026}. The
-difficulty axis has remained open --- notably, no reviewer raised a
-question-only baseline in the public review file of
-\citet{zhang2025knowright}, whose decision even lists the unexplained
-predictiveness of hidden states as a weakness. Meanwhile, difficulty
+difficulty axis has remained open. Meanwhile, difficulty
 itself is directly decodable from hidden representations
 \citep{llmknowsdifficulty2025, geometrichardness2026}, which is precisely
 the mechanism our dissection isolates.

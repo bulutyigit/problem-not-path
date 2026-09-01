@@ -178,7 +178,7 @@ def fig_topup_resolution(root: Path, out: Path) -> None:
         ax.grid(axis="x", visible=False)
     axes[0].set_ylabel("Cells")
     fig.legend(handles=[Patch(color=MUTED, label="resolved unsolvable (≤2/8)"),
-                        Patch(color=AMBER, label="genuinely intermediate (3–5/8)"),
+                        Patch(color=AMBER, label="intermediate after 8 attempts (3–5/8)"),
                         Patch(color=GREEN, label="resolved solvable (≥6/8)")],
                frameon=False, fontsize=8.5, ncols=3, loc="upper right",
                bbox_to_anchor=(0.99, 0.92))
@@ -353,12 +353,12 @@ def fig_matched_compute(root: Path, labels: pd.DataFrame, out: Path) -> None:
     handles = [Line2D([], [], marker="o", ls="", color=ORANGE,
                       label="continue own prefix at final anchor t (pooled, 8 branches)"),
                Line2D([], [], marker="o", ls="", color=MUTED,
-                      label="restart at matched compute R\u0302(t + 1,024)"),
+                      label="restart at matched budget R\u0302(t + 1,024)"),
                Line2D([], [], marker="^", ls="", markerfacecolor="none",
                       markeredgecolor=INK, label="restart at 8,192 (largest budget)")]
     fig.legend(handles=handles, frameon=False, fontsize=8.6, loc="outside upper left",
                bbox_to_anchor=(0.035, 0.93), ncols=1)
-    fig.suptitle("Matched-compute value of Ministral's long prefixes — 13 censored "
+    fig.suptitle("Matched-budget value of Ministral's long prefixes — 13 censored "
                  "Wave 3 cells", fontsize=11.5, color=INK, x=0.01, ha="left")
     fig.savefig(out / "wave3_matched_compute.png", dpi=180)
     plt.close(fig)
@@ -402,7 +402,7 @@ def fig_dissection(report_path: Path, out: Path) -> None:
     fig.suptitle("Dissecting an early-window probe positive — R1-Distill-7B "
                  "public trajectories", fontsize=11.5, color=INK, x=0.01, ha="left")
     ax.set_title("Same probe, two evaluation sets: the pooled positive replicates "
-                 "at t = 4 and is chance within problem at every anchor",
+                 "at t = 4 and is indistinguishable from chance within problem at every anchor",
                  loc="left", fontsize=8.8, color=SEC)
     fig.savefig(out / "math128_probe_dissection.png", dpi=180)
     plt.close(fig)
@@ -444,10 +444,57 @@ def fig_ceiling(report_path: Path, out: Path) -> None:
     fig.suptitle("A trace-blind difficulty proxy already sits inside the published "
                  "probe range — DeepSeek-R1 public dumps",
                  fontsize=11.2, color=INK, x=0.01, ha="left")
-    ax.set_title("Estimator frozen before evaluation; conservative (k = 2 for 92% "
+    ax.set_title("Estimator frozen before evaluation; likely conservative (k = 2 for 92% "
                  "of problems; curation drops some all-fail problems)",
                  loc="left", fontsize=8.4, color=SEC)
     fig.savefig(out / "difficulty_ceiling_openr1.png", dpi=180)
+    plt.close(fig)
+
+
+def fig_sweep(sweep_root: Path, confirmatory_report: Path, out: Path) -> None:
+    """Post-hoc forecast-point sweep (t=512 is the pre-registered point)."""
+    ts = (128, 256, 512, 1024, 2048)
+    rows = {"primary": [], "secondary": []}
+    for t in ts:
+        path = (confirmatory_report if t == 512
+                else sweep_root / f"t_{t}" / "confirmatory_report.json")
+        report = json.loads(path.read_text())
+        for endpoint in rows:
+            block = report[endpoint]
+            ci = block["clustered_bootstrap"]["delta"]
+            rows[endpoint].append((block["test_delta_auroc"],
+                                   ci["ci_low"], ci["ci_high"],
+                                   block["rows"]["test"]))
+    fig, axes = plt.subplots(1, 2, figsize=(11.4, 4.3), sharey=True,
+                             layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0, 1, 0.88))
+    titles = {"primary": "Primary: eventual success at 16K",
+              "secondary": "Secondary: scratch-solvable at 4,096"}
+    for ax, endpoint in zip(axes, ("primary", "secondary")):
+        ax.axhline(0.0, color=INK, lw=0.9)
+        for x, (t, (delta, lo, hi, n)) in enumerate(zip(ts, rows[endpoint])):
+            starred = t == 512
+            color = GREEN if starred else MUTED
+            ax.vlines(x, lo, hi, color=color, lw=2.2 if starred else 1.8)
+            ax.plot(x, delta, "o", color=color, ms=6.5 if starred else 5.5,
+                    zorder=5)
+            ax.annotate(f"n={n}", (x, lo), textcoords="offset points",
+                        xytext=(0, -11), ha="center", fontsize=7.4,
+                        color=MUTED)
+        ax.set_xticks(range(len(ts)))
+        ax.set_xticklabels([f"{t:,}*" if t == 512 else f"{t:,}" for t in ts],
+                           fontsize=9)
+        ax.set_xlabel("Forecast point t (prefix tokens)", fontsize=9)
+        ax.set_title(titles[endpoint], loc="left", fontsize=10, color=INK)
+        ax.grid(axis="x", visible=False)
+    axes[0].set_ylabel("ΔAUROC (early signals − baseline), 95% CI",
+                       fontsize=9)
+    fig.text(0.01, 0.895, "* = the pre-registered point; all others post-hoc",
+             fontsize=8, color=SEC)
+    fig.suptitle("Post-hoc forecast-point sweep — no tested window yields "
+                 "a detectable gain", fontsize=11.5, color=INK, x=0.01,
+                 ha="left")
+    fig.savefig(out / "early_signal_prefix_sweep.png", dpi=180)
     plt.close(fig)
 
 
@@ -458,6 +505,8 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--dissection-report", type=Path, default=None)
     parser.add_argument("--ceiling-report", type=Path, default=None)
+    parser.add_argument("--sweep-root", type=Path, default=None)
+    parser.add_argument("--confirmatory-report", type=Path, default=None)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     labels = pd.read_parquet(args.labels)
@@ -472,6 +521,8 @@ def main() -> None:
         fig_dissection(args.dissection_report, args.output_dir)
     if args.ceiling_report and args.ceiling_report.exists():
         fig_ceiling(args.ceiling_report, args.output_dir)
+    if args.sweep_root and args.confirmatory_report:
+        fig_sweep(args.sweep_root, args.confirmatory_report, args.output_dir)
     print("figures rendered to", args.output_dir)
 
 

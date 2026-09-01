@@ -70,7 +70,19 @@ python scripts/verify_math128_dump.py           # 32,768-sample verification
 python scripts/extract_math128_states.py ...    # teacher-forced forwards (Apple silicon)
 python scripts/analyze_math128_probe.py ...     # the pooled-vs-within dissection
 python scripts/analyze_nonmath_ceiling.py ...   # GPQA-diamond ceiling
+python scripts/render_paper_figures.py ...      # regenerate every paper figure
+pytest -q                                       # unit tests
 ```
+
+Model checkpoints: `mlx-community/gemma-4-e4b-it-4bit` (of
+`google/gemma-4-E4B-it`) and `mlx-community/Ministral-3-3B-Reasoning-2512-4bit`
+(of `mistralai/Ministral-3-3B-Reasoning-2512`); the public-dump dissection
+re-scores with `mlx-community/DeepSeek-R1-Distill-Qwen-7B-4bit`. Exact ids
+also appear in `configs/experiments/`. Large artifacts: the teacher-forced
+hidden-state tensors (several GB) are not shipped — `extract_math128_states.py`
+regenerates them deterministically from the public dump; the shipped
+`results/` parquet/JSON files are small and carry every number cited in the
+paper.
 
 The instrumented-cohort pipeline (generation → probes → restart panels →
 labels → confirmatory test) is documented step by step in

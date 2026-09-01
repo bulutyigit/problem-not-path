@@ -49,8 +49,8 @@ Neither endpoint's $\Delta$AUROC CI excludes zero.}
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{early_signal_prefix_sweep}
-\caption{Post-hoc forecast-point sweep: no window rescues the early
-signals.}
+\caption{Post-hoc forecast-point sweep: no tested window yields a
+detectable gain.}
 \label{fig:sweep}\end{figure}
 
 Why the null has this shape is visible in the per-model split: the
@@ -153,14 +153,20 @@ construction.
 The uncontrolled result replicates: a last-four-token hidden-state probe
 at $t = 4$ reaches pooled AUROC $0.849$ $[0.735, 0.919]$ on the
 8-per-problem evaluation set ($n{=}1{,}024$), matching the $0.84$
-reported by \citet{david2025temporal}. The same probe, evaluated within
-problem on the 22 mid-band problems ($n{=}5{,}632$) --- the within component of
+reported by \citet{david2025temporal}. The pooled replication and the
+within-problem analysis use different evaluation sets: the former
+preserves the published 8-per-problem design, the latter uses all 256
+samples of the 22 problems with sufficient outcome variation --- problems
+that hold 94\% of the dump's failures and 84\% of its same-cell
+discordant pairs, the pairs on which any within-attempt signal must live.
+The same probe, evaluated within
+problem on those 22 problems ($n{=}5{,}632$) --- the within component of
 Eq.~\eqref{eq:decomp}, estimated under both discordant-pair and the
 pre-registered failure-count weighting (Appendix~\ref{app:extra}) ---
 sits at $0.496$ $[0.466, 0.527]$ under the pre-registered
 failure-count weighting and $0.515$ $[0.481, 0.562]$ under exact
-discordant-pair weighting --- chance under both --- and remains at chance
-at every one of ten anchors from $t = 4$ to $512$ (length attrition
+discordant-pair weighting --- indistinguishable from chance under both
+--- and remains so at every one of ten anchors from $t = 4$ to $512$ (length attrition
 leaves 21 of the 22 problems with both outcome classes at $t = 512$;
 Figure~\ref{fig:dissect}); the upper confidence limits cap the
 failure-weighted and pair-weighted \emph{mean} within-problem AUROC at
@@ -188,7 +194,7 @@ fate of the attempt.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{math128_probe_dissection}
-\caption{Same probe, two evaluations, 6{,}480 public R1-Distill-7B
-trajectories: the pooled positive replicates at $t=4$ and is chance within
-problem at every anchor.}
+\caption{Same probe, two evaluation sets, 6{,}480 public R1-Distill-7B
+trajectories: the pooled positive replicates at $t=4$ and is
+indistinguishable from chance within problem at every anchor.}
 \label{fig:dissect}\end{figure}

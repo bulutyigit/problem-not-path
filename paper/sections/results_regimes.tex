@@ -22,7 +22,9 @@ contributed zero new prefix-limited cases. Loosening the margin to
 $\delta = 0.25$ adds four crossings, tightening to $0.75$ keeps two, and
 the conservative $\Rhat$ envelope agrees with the primary labels on all
 178 cells. Genuine prefix-locked value, at this scale and in these models,
-is rare to absent.
+is rare: 1 of 178 cells (exact binomial 95\% CI $0.01\%$--$3.1\%$), in an
+outcome-blind but difficulty-targeted cohort with one base trajectory per
+cell.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{a5_project_regime_map}
@@ -45,7 +47,8 @@ drops of at least $0.5$ and one threshold reversal --- larger-budget
 restarts \emph{losing} solved problems, overthinking on natural problems
 that complements constructed-task inverse scaling
 \citep{gema2025inverse}. One model's failures are
-\emph{compute-starved}; the other's are \emph{capability-limited}. The two
+\emph{compute-starved}; the other's are \emph{capability-limited} within
+the measured restart-budget range. The two
 models agree on a collapsed regime class for only 42 of 89 problems:
 small models do not share a single ``small-model'' failure mode, which
 also cautions against averaging such models in evaluations.
@@ -89,8 +92,9 @@ value of a partial trace expressed in fresh-token units.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.9\linewidth]{wave3_matched_compute}
-\caption{Matched-compute value of long prefixes on 13 threshold-censored
-cells: the prefix wins at equal total compute (11/13); the largest
+\caption{Matched-budget value of long prefixes on 13 threshold-censored
+cells: the prefix wins all nine exactly matched comparisons (starred
+boundary proxies: two wins, two ties); the largest
 measured restart reaches $\tauthr$ in 11/13 and the prefix's own rate in
 9/13.}
 \label{fig:matched}\end{figure}

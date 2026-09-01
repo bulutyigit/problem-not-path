@@ -15,25 +15,29 @@ matter: the first for what test-time compute buys, the second for
 adaptive inference and interpretability.
 
 Both beliefs rest on measurements with a missing control, and the two
-missing controls mirror each other. Breakthrough claims rest on
+missing controls mirror each other: a claim about a trajectory requires a
+counterfactual control at the level of the claim --- what this
+computation buys over fresh computation, what this attempt reveals beyond
+its problem. Breakthrough claims rest on
 truncate-and-resample probes: cut the trace at position $t$, sample
 continuations under a budget, and call the first high-solve-rate anchor a
 breakthrough. But a crossing of that kind conflates two events ---
 \emph{the prefix accumulated value} and \emph{the remaining work began to
 fit the budget}. Distinguishing them requires a from-scratch \emph{restart}
-control at matched total compute, which no published probe runs.
+control at matched total generated-token budget; we found no prior work
+combining per-anchor continuation estimates with a per-problem restart
+curve at matched budget (Section~\ref{sec:related}).
 Prediction claims rest on probes evaluated across problems, where a probe
 can score well by reading \emph{which problem it is} --- its difficulty
 --- rather than how the attempt is going. Distinguishing those requires a
 question-only baseline and a within-problem evaluation, which the
-published positives do not report; the confound was not raised even in the
-public review file of the area's flagship result.
+published positives do not report.
 
 This paper supplies both controls and reports what they change. We build a
 restart-controlled, budget-indexed, censoring-aware truncation probe
 (Section~\ref{sec:method}): per-anchor continuation solve rates
 $\phat(t)$ are compared against restart curves $R(C)$ at matched total
-compute, splitting the naive breakthrough time into a budget-fit time
+generated-token budget, splitting the naive breakthrough time into a budget-fit time
 \Tf{} and a prefix-value time \Tv, with attempt-level noise hardened by
 replication and pooling. We apply it to 178 problem--model cells (89 MATH
 problems $\times$ two small open models, 16K-token instrumented traces),
@@ -50,9 +54,10 @@ rules were frozen contributed zero new cases
 (Section~\ref{sec:results-regimes}).
 \item \textbf{Restart dose--response separates failure modes.} One model's
 unsolved problems dissolve as budget grows ($0\%\to79\%$,
-compute-starved); the other's do not budge (capability-limited).
+compute-starved); the other's do not budge (capability-limited within
+the measured restart-budget range).
 \item \textbf{Accumulated reasoning is predominantly compute
-compression.} At matched total compute the model's own prefix beats
+compression.} At matched total token budget the model's own prefix beats
 restarting wherever the comparison is exactly matched (9/9, with 2 wins
 and 2 ties on boundary proxies), yet a larger restart budget reaches the
 same threshold in 11/13 and the prefix's own rate in 9/13: within the
