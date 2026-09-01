@@ -30,51 +30,31 @@ Johannes Kepler University Linz\\
 \maketitle
 
 \begin{abstract}
-% Draft v1 — tighten after results sections are final.
 Reasoning traces of large language models are widely read as containing
-``breakthrough'' or ``aha'' moments --- points where accumulated reasoning
-suddenly unlocks a solution. We show that the standard way of measuring such
-moments is confounded: truncating a trace and resampling continuations under
-a fixed budget measures when a solution \emph{fits the continuation budget}
-(\Tf), not whether the prefix carries value that fresh computation cannot
-buy (\Tv). We introduce a restart-controlled probe that separates the two:
-per-anchor continuation solve rates $\phat(t)$ are compared against
-from-scratch restart curves $R(C)$ at matched \emph{total}
-generated-token budget, with
-interval censoring and attempt-level noise handled explicitly. Applying the
-instrument to 178 problem--model cells from an outcome-blind,
-difficulty-targeted cohort (89 MATH problems $\times$ two small
-open models, 16K-token instrumented traces), we find: (i) only 1 of 178
-cells survives as prefix-limited under the frozen rules (three non-instant
-cells cross the advantage margin; an in-grid restart already solves two); (ii) restart dose--response
-curves cleanly separate failure modes --- one model is compute-starved
-(solve share 0\%$\to$79\% as budget grows), the other capability-limited
-(flat across the measured budgets); (iii) wherever the matched total
-token budget lies inside the restart grid,
-continuing the model's own prefix beats restarting (9 of 9 late-crossing
-cells; 2 wins and 2 ties on four boundary proxies), yet an 8{,}192-token
-restart reaches the same threshold in 11/13 and the prefix's own success
-rate in 9/13 --- predominantly consistent with accumulated reasoning
-acting as \emph{compute compression} rather than expanded reachability,
-within the measured budget range; (iv) roughly a third of ambiguous
-intermediate states remain intermediate after eight attempts (success
-rates 0.3--0.6), a band the independent second half of attempts
-reproduces; and (v) in a pre-registered, single-shot evaluation on
-a held-out test split, early-window internal signals (entropy, successive
-divergences, hidden-state geometry) add no detectable outcome information
-beyond a problem-difficulty baseline --- with a labeled post-hoc sweep
-finding no alternative forecast point from 128 to 2,048 tokens whose
-interval excludes zero --- a control that the growing literature of
-probe-based positives lacks. Two generation-free analyses of public corpora show the
-control bites in that literature's own regime: on 192K DeepSeek-R1
-generations a trace-blind difficulty proxy (the leave-one-out pass rate of
-the problem's other attempts) reaches AUROC 0.873, inside the published
-probe range; and the closest published early-window positive
-replicates (pooled 0.849 at $t{=}4$) while statistically
-indistinguishable from chance \emph{within problem} at every anchor, on
-the 22 non-saturated problems
-that hold 94\% of all failures --- consistent with the pooled positive
-being predominantly, and possibly entirely, between-problem information.
+``breakthrough'' moments and early-legible fates. Both readings rest on
+measurements missing a counterfactual control at the level of the claim;
+we supply both controls. First, a restart-controlled truncation probe
+separates \emph{when a solution fits the continuation budget} from
+\emph{when a prefix carries value that fresh computation cannot buy},
+comparing per-anchor continuation solve rates against from-scratch
+restart curves at matched total generated-token budget. Applied to 178
+problem--model cells (89 MATH problems $\times$ two small open models, an
+outcome-blind but difficulty-targeted cohort), exactly 1 of 178 cells
+survives as prefix-limited; restart dose--response separates a
+compute-starved model from a capability-limited one; and wherever the
+matched budget lies inside the restart grid, continuing the model's own
+prefix beats restarting (9 of 9) --- predominantly compute compression
+rather than expanded reachability. Second, a pre-registered,
+difficulty-controlled test finds no detectable outcome information in
+early-window internal signals beyond a problem-difficulty baseline, and
+two generation-free analyses of public corpora show why this control is
+needed: a trace-blind difficulty proxy reaches AUROC 0.873 on 192K
+DeepSeek-R1 generations --- inside the published probe range --- and the
+closest published early-window positive replicates (pooled 0.849) while
+statistically indistinguishable from chance within problem (0.496) at
+every anchor. Pooled probe AUROCs should be read as difficulty
+measurements until a question-only baseline or within-problem evaluation
+shows otherwise.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}
