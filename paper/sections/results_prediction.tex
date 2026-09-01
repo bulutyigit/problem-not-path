@@ -32,8 +32,9 @@ remained below its power gate (four test-split interior events) and was
 not fit. A post-hoc sweep of the forecast point over
 $t \in \{128, 256, 1{,}024, 2{,}048\}$ --- labeled post-hoc in the
 amendment --- found 8 of 10 point estimates negative and every CI
-straddling zero (Figure~\ref{fig:sweep}): the absence of detected gain is
-not an artifact of the chosen window. These are absences of detected gain,
+straddling zero (Figure~\ref{fig:sweep}): no alternative window rescues
+the signals, though these post-hoc intervals are individually
+underpowered. These are absences of detected gain,
 not demonstrations of equivalence --- the primary CI's upper bound
 ($+0.167$) does not exclude moderate effects, and no equivalence margin
 was pre-registered anywhere; what tighter intervals can support is an
@@ -114,7 +115,7 @@ pass rate of the problem's \emph{other} attempts, for 92\% of problems a
 single binary observation, reading neither the trace nor the question ---
 achieves AUROC $0.873$ $[0.870, 0.876]$
 (problem-clustered bootstrap; estimator frozen before evaluation, and
-conservative by construction since dataset curation truncates the
+likely conservative, since dataset curation truncates the
 difficulty range). That places a predictor that never reads the trace
 squarely inside the $0.79$--$0.95$ range that internal-state probe papers report
 \citep{zhang2025knowright, yuan2026diagnostic, sun2026trajectories,
@@ -125,7 +126,8 @@ question-text features but never probes the reasoning window). Nor is the ceilin
 artifact: on 16{,}384 public GPQA-diamond \citep{rein2023gpqa} samples (64 questions $\times$
 256 attempts, Llama-3.3-70B \citep{singhi2025solveverify}), the same
 estimator reaches $0.917$ $[0.875, 0.938]$ --- despite a four-way
-multiple-choice guessing floor that attenuates, never inflates, it.
+multiple-choice guessing floor that, under independent uniform guessing,
+attenuates rather than inflates it.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.9\linewidth]{difficulty_ceiling_openr1}
@@ -157,10 +159,12 @@ pre-registered failure-count weighting (Appendix~\ref{app:extra}) ---
 sits at $0.496$ $[0.466, 0.527]$ under the pre-registered
 failure-count weighting and $0.515$ $[0.481, 0.562]$ under exact
 discordant-pair weighting --- chance under both --- and remains at chance
-at every one of ten anchors from $t = 4$ to $512$
-(Figure~\ref{fig:dissect}); the upper confidence limits bound any
-within-attempt AUROC signal at $t = 4$ by $0.527$ (failure-weighted) and
-$0.562$ (pair-weighted). The pooled positive is therefore predominantly
+at every one of ten anchors from $t = 4$ to $512$ (length attrition
+leaves 21 of the 22 problems with both outcome classes at $t = 512$;
+Figure~\ref{fig:dissect}); the upper confidence limits cap the
+failure-weighted and pair-weighted \emph{mean} within-problem AUROC at
+$t = 4$ at $0.527$ and $0.562$ --- bounds on these weighted-mean
+estimands, not on any single problem. The pooled positive is therefore predominantly
 --- and possibly entirely --- between-problem information, far below the
 dump's full leave-one-out difficulty ceiling of $0.981$ (pass rate of the
 255 other attempts per problem). Moreover, with sample composition held fixed, the pooled AUROC

@@ -6,7 +6,10 @@ Endpoints per anchor t: pooled AUROC on held-out problems (literature's
 metric, on the 8-per-problem pooled set) and within-problem AUROC on
 held-out mid-band problems (per-problem AUROC over its samples,
 failure-count-weighted), both from problem-disjoint 5-fold OOF predictions.
-Reference: the LOO pass-rate baseline (within-problem 0.5 by construction).
+Reference: the LOO pass-rate baseline (pooled high; its within-problem
+AUROC is mechanically 0, since within a problem every incorrect attempt's
+LOO score exceeds every correct one's --- 0.5 remains the neutral
+no-signal reference).
 
 Deviation recorded here: the stored streams support only the
 predictive-ambiguity/dynamics summary subset (entropy, surprisal, top-1);

@@ -51,24 +51,27 @@ rules were frozen contributed zero new cases
 \item \textbf{Restart dose--response separates failure modes.} One model's
 unsolved problems dissolve as budget grows ($0\%\to79\%$,
 compute-starved); the other's do not budge (capability-limited).
-\item \textbf{Accumulated reasoning is compute compression.} At matched
-total compute the model's own prefix beats restarting wherever the
-comparison is exactly matched (9/9, with 2 wins and 2 ties on boundary
-proxies), yet a larger restart budget reaches the same threshold in 11/13
-and the prefix's own rate in 9/13: long reasoning reaches the same places
-cheaper, not new places.
+\item \textbf{Accumulated reasoning is predominantly compute
+compression.} At matched total compute the model's own prefix beats
+restarting wherever the comparison is exactly matched (9/9, with 2 wins
+and 2 ties on boundary proxies), yet a larger restart budget reaches the
+same threshold in 11/13 and the prefix's own rate in 9/13: within the
+measured budget range, long reasoning mostly buys the same successes
+cheaper rather than reaching otherwise unreachable ones.
 \item \textbf{Solvability is not binary.} A third of ambiguous
 intermediate states remain intermediate after eight attempts (success
 $0.3$--$0.6$), a band reproduced in the independent second half of
 attempts.
 \item \textbf{Early internal signals carry no detectable outcome
-information beyond difficulty.} A pre-registered, single-shot test on a held-out split finds
-$\Delta$AUROC $\approx 0$ at every forecast window
-(Section~\ref{sec:results-prediction}); on public data, a question-only
-signal reaches 0.873 on 192K DeepSeek-R1 generations --- inside the
-published probe range --- and the closest published early-window positive
-replicates at $t{=}4$ (pooled 0.849) while sitting exactly at chance
-(0.496) within problem, at every anchor.
+information beyond difficulty.} A pre-registered, single-shot test on a
+held-out split finds no detectable gain at the frozen forecast point, and
+a labeled post-hoc sweep finds none at any window from 128 to 2,048
+tokens (Section~\ref{sec:results-prediction}); on public data, a
+trace-blind difficulty proxy reaches 0.873 on 192K DeepSeek-R1
+generations --- inside the published probe range --- and the closest
+published early-window positive replicates at $t{=}4$ (pooled 0.849)
+while statistically indistinguishable from chance (0.496) within problem
+at every anchor.
 \end{itemize}
 
 The claims are scoped deliberately. We study two small open-weight models

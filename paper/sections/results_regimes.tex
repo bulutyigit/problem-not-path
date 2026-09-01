@@ -57,7 +57,7 @@ Individual curves (left) and share solved from scratch (right):
 Ministral-3 climbs $0\%\to79\%$; Gemma-4 stays flat.}
 \label{fig:dose}\end{figure}
 
-\subsection{Accumulated reasoning is compute compression}
+\subsection{Accumulated reasoning is predominantly compute compression}
 
 The 13 threshold-censored Ministral-3 expansion cells --- trajectories
 whose crossing was replicated only at the final anchor --- allow the
@@ -71,9 +71,13 @@ unknown --- restart curves are not uniformly monotone --- and on these
 proxies the prefix wins two and ties two. The largest measured restart
 reaches $\tauthr$ in 11 of 13 cells and matches the prefix's own pooled
 success rate in 9 of 13.
-Accumulated reasoning therefore acts as \emph{compression} --- it reaches
-the same solutions with fewer total tokens --- rather than as expanded
-reachability. This instantiates, empirically and per problem, the no-benefit branch of
+Accumulated reasoning is therefore predominantly consistent with
+\emph{compression} --- reaching the same success threshold with fewer
+total tokens --- rather than with expanded reachability, within the
+measured budget range: in the two cells where no measured restart reaches
+$\tauthr$ the question stays open at larger budgets, and binary
+correctness compares success rates, not solution content. This
+instantiates, empirically and per problem, the no-benefit branch of
 the dichotomy of \citet{wolf2026theory} --- absent self-reflection that
 reliably localizes early errors, conditioning on past attempts offers no
 asymptotic benefit over independent restarts (their analysis concerns

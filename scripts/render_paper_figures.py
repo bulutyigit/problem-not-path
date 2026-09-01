@@ -387,7 +387,7 @@ def fig_dissection(report_path: Path, out: Path) -> None:
             label="pooled across problems, 8-per-problem set (n = 1,024)")
     ax.fill_between(ts, w_lo, w_hi, color="#0f8a74", alpha=0.18)
     ax.plot(ts, within, "-o", color="#0f8a74", lw=2.2, ms=5.5,
-            label="within problem, 22 mid-band problems (n = 5,632)")
+            label="within problem, 22 mid-band problems (21 at t = 512; n = 5,632)")
     ax.scatter([4], [0.84], marker="D", s=52, facecolor="none",
                edgecolor="#8a7ad9", linewidths=1.6, zorder=5)
     ax.annotate("0.84 reported by the\nuncontrolled original", (4, 0.84),

@@ -51,16 +51,18 @@ curves cleanly separate failure modes --- one model is compute-starved
 continuing the model's own prefix beats restarting (9 of 9 late-crossing
 cells; 2 wins and 2 ties on four boundary proxies), yet an 8{,}192-token
 restart reaches the same threshold in 11/13 and the prefix's own success
-rate in 9/13 --- accumulated reasoning acts as \emph{compute
-compression}, not expanded reachability; (iv) roughly a third of ambiguous
+rate in 9/13 --- predominantly consistent with accumulated reasoning
+acting as \emph{compute compression} rather than expanded reachability,
+within the measured budget range; (iv) roughly a third of ambiguous
 intermediate states remain intermediate after eight attempts (success
 rates 0.3--0.6), a band the independent second half of attempts
 reproduces; and (v) in a pre-registered, single-shot evaluation on
 a held-out test split, early-window internal signals (entropy, successive
 divergences, hidden-state geometry) add no detectable outcome information
-beyond a problem-difficulty baseline, at every forecast point from 128 to
-2,048 tokens --- a control that the growing literature of probe-based
-positives lacks. Two generation-free analyses of public corpora show the
+beyond a problem-difficulty baseline --- with a labeled post-hoc sweep
+finding no alternative forecast point from 128 to 2,048 tokens whose
+interval excludes zero --- a control that the growing literature of
+probe-based positives lacks. Two generation-free analyses of public corpora show the
 control bites in that literature's own regime: on 192K DeepSeek-R1
 generations a trace-blind difficulty proxy (the leave-one-out pass rate of
 the problem's other attempts) reaches AUROC 0.873, inside the published

@@ -77,9 +77,10 @@ level and condition on \emph{completed} answers. Our instrument moves the
 comparison inside the trajectory --- the model's own truncated prefix
 against a fresh start at matched total tokens, per problem --- and yields a
 quantity the aggregate view cannot express: a prefix's value in fresh-token
-units. The answer, for our models, is compression rather than reachability
-(prefix wins 11/13 at equal compute; an 8{,}192-token restart catches up in
-11/13), which is empirical evidence for the no-benefit branch of the dichotomy of
+units. The answer, for our models, is predominantly compression rather than
+reachability (the prefix wins all nine exactly-matched comparisons, with
+two wins and two ties on boundary proxies; an 8{,}192-token restart
+reaches threshold in 11/13), which is empirical evidence for the no-benefit branch of the dichotomy of
 \citet{wolf2026theory}: when self-reflection fails to reliably localize
 early errors, conditioning on past attempts offers no asymptotic benefit
 over independent restarts. Our per-problem restart dose--response curves also
