@@ -230,7 +230,7 @@ liblinear, class-weight balanced, at most 5{,}000 iterations, on
 standardized features. The public-dump probe battery uses scikit-learn
 defaults (C $= 1$, lbfgs) with class-weight balanced, at most 2{,}000
 iterations, standardization, and PCA to at most 128 components ---
-matching the probe recipes it replicates. Folds are StratifiedGroupKFold
+matching the probe recipes it reconstructs. Folds are StratifiedGroupKFold
 with problems as groups throughout. Confidence intervals are percentile
 bootstraps over 2{,}000 problem-clustered draws.
 

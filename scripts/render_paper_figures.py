@@ -401,7 +401,7 @@ def fig_dissection(report_path: Path, out: Path) -> None:
     ax.legend(frameon=False, fontsize=8.6, loc="center right")
     fig.suptitle("Dissecting an early-window probe positive — R1-Distill-7B "
                  "public trajectories", fontsize=11.5, color=INK, x=0.01, ha="left")
-    ax.set_title("Same probe, two evaluation sets: the pooled positive replicates "
+    ax.set_title("Same probe, two evaluation sets: the pooled positive is recovered "
                  "at t = 4 and is indistinguishable from chance within problem at every anchor",
                  loc="left", fontsize=8.8, color=SEC)
     fig.savefig(out / "math128_probe_dissection.png", dpi=180)

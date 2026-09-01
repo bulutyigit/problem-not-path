@@ -94,7 +94,8 @@ evaluates only between-cell ranking, a task for which ranking by $p_c$ is
 optimal among question-only scores under conditional i.i.d.\ sampling,
 and therefore cannot, by itself, attribute its value to within-attempt
 information, however high it reads --- difficulty alone can produce any of
-the reported numbers. The published early-window positives are of this form (one trajectory per problem). The two
+the reported numbers. The closest published early-window positive
+\citep{david2025temporal} is of this form (one trajectory per problem). The two
 designs in this section are the two escapes Eq.~\eqref{eq:decomp} allows:
 with $k_c = 1$ the within component is inaccessible and the only recourse
 is \emph{incremental} value over an explicit question-only baseline (our
@@ -139,8 +140,9 @@ generations --- inside the published probe range.}
 \subsection{Dissecting a published probe positive in the reasoning-model
 regime}
 
-Finally, we replicated and then dissected the closest published
-early-window positive, using public data and no generation: 128 MATH
+Finally, we reconstructed and then dissected the closest published
+early-window setup in a public reasoning-model regime, using public data
+and no generation: 128 MATH
 problems with 256 R1-Distill-Qwen-7B samples each
 \citep{singhi2025solveverify}, re-scored by
 teacher-forcing the dump's own tokens through the 4-bit model (top-1
@@ -150,12 +152,12 @@ report: evaluating the
 \emph{same} probe within problem, where difficulty is held fixed by
 construction.
 
-The uncontrolled result replicates: a last-four-token hidden-state probe
+The uncontrolled positive is recovered: a last-four-token hidden-state probe
 at $t = 4$ reaches pooled AUROC $0.849$ $[0.735, 0.919]$ on the
 8-per-problem evaluation set ($n{=}1{,}024$), matching the $0.84$
-reported by \citet{david2025temporal}. The pooled replication and the
+reported by \citet{david2025temporal}. The pooled reconstruction and the
 within-problem analysis use different evaluation sets: the former
-preserves the published 8-per-problem design, the latter uses all 256
+uses the frozen 8-per-problem pooled subset, the latter all 256
 samples of the 22 problems with sufficient outcome variation --- problems
 that hold 94\% of the dump's failures and 84\% of its same-cell
 discordant pairs, the pairs on which any within-attempt signal must live.
@@ -195,6 +197,6 @@ fate of the attempt.
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{math128_probe_dissection}
 \caption{Same probe, two evaluation sets, 6{,}480 public R1-Distill-7B
-trajectories: the pooled positive replicates at $t=4$ and is
+trajectories: the pooled positive is recovered at $t=4$ and is
 indistinguishable from chance within problem at every anchor.}
 \label{fig:dissect}\end{figure}
