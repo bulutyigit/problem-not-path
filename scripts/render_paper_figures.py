@@ -80,12 +80,12 @@ def fig_regime_map(labels: pd.DataFrame, out: Path) -> None:
     bounds = np.cumsum([piv.cohort.eq(c).sum() for c in ("dev", "supplement", "wave3")])
     for b in bounds[:-1]:
         ax.axvline(b - 0.5, color=SURFACE, lw=3)
-    for name, lo, hi in zip(("dev (20)", "supplement (20)", "wave3 (49)"),
+    for name, lo, hi in zip(("development (20)", "supplement (20)", "expansion (49)"),
                             np.r_[0, bounds[:-1]], bounds):
         ax.text((lo + hi - 1) / 2, -0.62, name, ha="center", fontsize=8.6, color=SEC)
     ax.set_xlim(-0.5, len(piv) - 0.5)
     ax.set_title("Every problem × model cell in the project, classified under the "
-                 "frozen A5 rules", loc="left", fontsize=9.4, color=SEC, pad=18)
+                 "frozen taxonomy", loc="left", fontsize=9.4, color=SEC, pad=18)
     ax2 = fig.add_subplot(gs[1])
     counts = frame.groupby(["model", "cls"]).size().unstack(fill_value=0).reindex(
         columns=classes, fill_value=0)
@@ -143,7 +143,7 @@ def fig_dose_response(labels: pd.DataFrame, out: Path) -> None:
         ax.set_xticklabels(["1,024", "2,048", "4,096", "8,192"])
         ax.set_xlabel("Restart reasoning budget C (tokens)")
         ax.set_ylim(-0.04, 1.06)
-    fig.suptitle("Wave 3 restart dose–response — non-instant cells: Ministral climbs "
+    fig.suptitle("Restart dose–response on the expansion cohort — non-instant cells: Ministral climbs "
                  "with budget, Gemma stays flat", fontsize=11.5, color=INK,
                  x=0.01, ha="left")
     fig.savefig(out / "wave3_restart_dose_response.png", dpi=180)
@@ -182,7 +182,7 @@ def fig_topup_resolution(root: Path, out: Path) -> None:
                         Patch(color=GREEN, label="resolved solvable (≥6/8)")],
                frameon=False, fontsize=8.5, ncols=3, loc="upper right",
                bbox_to_anchor=(0.99, 0.92))
-    fig.suptitle('A5.1 ambiguity enlargement — what 4-attempt "maybe" cells became '
+    fig.suptitle('Ambiguity enlargement — what 4-attempt "maybe" cells became '
                  "at 8 attempts", fontsize=11.5, color=INK, x=0.01, ha="left")
     fig.savefig(out / "wave3_topup_resolution.png", dpi=180)
     plt.close(fig)
@@ -217,7 +217,7 @@ def fig_label_hardening(out: Path) -> None:
     axes[0].set_ylabel("Trajectories (of 49)")
     fig.legend(handles=[Patch(color=colors[c], label=c) for c in order],
                frameon=False, fontsize=8.8, ncols=4, loc="outside upper right")
-    fig.suptitle("Wave 3 labels before and after noise hardening",
+    fig.suptitle("Expansion-cohort labels before and after noise hardening",
                  fontsize=11.5, color=INK, x=0.01, ha="left")
     fig.savefig(out / "wave3_label_hardening.png", dpi=180)
     plt.close(fig)
@@ -271,7 +271,7 @@ def fig_swimmer(root: Path, out: Path) -> None:
         ax.set_yticks([])
         ax.grid(axis="y", visible=False)
         ax.set_xlabel("Prefix tokens (log scale)")
-    fig.suptitle("Wave 3 probes — 49 problems × 2 models: breakthrough intervals and "
+    fig.suptitle("Expansion-cohort probes — 49 problems × 2 models: breakthrough intervals and "
                  "censoring\npink rows: censored at threshold (terminal-replication "
                  "candidates)", fontsize=11.5, color=INK, x=0.01, ha="left")
     fig.savefig(out / "swimmer_wave3.png", dpi=180)
@@ -307,7 +307,7 @@ def fig_budget_falsification(root: Path, out: Path) -> None:
         ax.set_title(MODELS[short], loc="left", fontsize=10.5, color=INK)
         ax.grid(axis="y", visible=False)
         ax.legend(frameon=False, fontsize=8.6, loc="lower right")
-    fig.suptitle("A2 budget falsification — the same trajectories probed at two"
+    fig.suptitle("Budget falsification — the same trajectories probed at two"
                  " continuation budgets:\nMinistral's crossings collapse toward"
                  " 16-token prefixes, Gemma's stay pinned (rings = B = 1,024)",
                  fontsize=11, color=INK, x=0.01, ha="left")
@@ -359,7 +359,7 @@ def fig_matched_compute(root: Path, labels: pd.DataFrame, out: Path) -> None:
     fig.legend(handles=handles, frameon=False, fontsize=8.6, loc="outside upper left",
                bbox_to_anchor=(0.035, 0.93), ncols=1)
     fig.suptitle("Matched-budget value of Ministral's long prefixes — 13 censored "
-                 "Wave 3 cells", fontsize=11.5, color=INK, x=0.01, ha="left")
+                 "expansion-cohort cells", fontsize=11.5, color=INK, x=0.01, ha="left")
     fig.savefig(out / "wave3_matched_compute.png", dpi=180)
     plt.close(fig)
 
