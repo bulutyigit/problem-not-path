@@ -73,13 +73,19 @@ artifacts; Gemma-4's survive.}
 
 \subsection{Per-trajectory intervals and label hardening}
 
-Figure~\ref{fig:swimmer} shows every expansion-cohort trajectory's
-breakthrough interval or censoring bound; Figure~\ref{fig:hardening} shows
-what the noise-hardening rules changed. Terminal replication confirmed 13
+Figure~\ref{fig:hardening} shows what the noise-hardening rules changed;
+Figure~\ref{fig:swimmer} shows the breakthrough interval or censoring
+bound of every expansion-cohort trajectory. Terminal replication confirmed 13
 of Ministral-3's 16 threshold-censored candidates and rejected Gemma-4's
 single candidate; pooling ambiguous cells to eight attempts moved labels
 on $7+6$ of $49+49$ trajectories, dominated by losses (six events removed,
 one added; Gemma-4's changes were mostly interval shifts).
+
+\begin{figure}[h]\centering
+\includegraphics[width=\linewidth]{wave3_label_hardening}
+\caption{Expansion-cohort labels before and after noise hardening
+(pooling + terminal replication): trimmed, not inflated.}
+\label{fig:hardening}\end{figure}
 
 \begin{figure}[h]\centering
 \includegraphics[width=\linewidth]{swimmer_wave3}
@@ -87,12 +93,6 @@ one added; Gemma-4's changes were mostly interval shifts).
 (solid), censoring bounds (arrows), and threshold-censored replication
 candidates (highlighted).}
 \label{fig:swimmer}\end{figure}
-
-\begin{figure}[h]\centering
-\includegraphics[width=\linewidth]{wave3_label_hardening}
-\caption{Expansion-cohort labels before and after noise hardening
-(pooling + terminal replication): trimmed, not inflated.}
-\label{fig:hardening}\end{figure}
 
 \subsection{Sensitivity of \Tv{} labels}
 
@@ -177,6 +177,8 @@ near-constant standardized dimensions and are cosmetic. Teacher-forcing
 fidelity: mean top-1 agreement 0.906 (10th percentile 0.859).
 
 \subsection{Post-hoc forecast-point sweep: full table}
+
+Table~\ref{tab:sweep} lists both endpoints at every forecast point.
 
 \begin{table}[h]\centering\small
 \begin{tabular}{rcccc}

@@ -13,20 +13,21 @@ cheap controls:
 - **"Breakthrough / aha moments"** measured by truncate-and-resample probes
   mostly mark the point where a solution starts to *fit the continuation
   budget*, not where the prefix accumulated value. The control is a
-  from-scratch **restart baseline at matched total compute**: only 1 of 178
-  problem×model cells survives it.
+  from-scratch **restart baseline at matched total generated-token
+  budget**: only 1 of 178 problem×model cells survives it.
 - **"A run's fate is legible in early hidden states"** (probe AUROCs of
   0.79–0.95 in the literature) is largely the probe reading *which problem
   it is*. The controls are a **question-only difficulty baseline** and a
   **within-problem evaluation**: a published early-window positive
-  replicates exactly (pooled 0.849 at t=4) and sits at chance (0.496)
-  within problem, at every anchor.
+  replicates (pooled 0.849 at t=4) and is statistically indistinguishable
+  from chance within problem at all ten anchors (0.496 at t=4).
 
 Positive findings survive the same instruments: restart dose–response
 curves separate compute-starved from capability-limited failure
-(0%→79% vs flat), a long prefix is worth roughly a budget multiple
-(compression, not reachability), and about a third of ambiguous
-intermediate states are genuinely stochastic (success 0.3–0.6 at n=8).
+(0%→79% vs flat within the measured budgets), a long prefix is worth
+roughly a budget multiple (predominantly compression within the measured
+budget range), and about a third of ambiguous intermediate states remain
+intermediate after eight attempts (success 0.3–0.6 at n=8).
 
 ## Key results → where they live
 
@@ -34,11 +35,11 @@ intermediate states are genuinely stochastic (success 0.3–0.6 at n=8).
 |---|---|---|---|
 | Final regime map, 178 cells | 1/178 prefix-limited | `scripts/label_a5_full_cohort.py` | `results/a5_full_cohort_labels.parquet` |
 | Restart dose–response | 0→19→45→79% vs 10–12% flat | `scripts/probe_restart_baseline.py` | same labels file |
-| Matched-compute prefix value | 11/13 wins, 11/13 caught up | `scripts/probe_terminal_stability.py` + labels | same |
-| Stochastic solvability band | 55/148 cells at 3–5 of 8 | `scripts/probe_ambiguity_topup.py` | same |
+| Matched-budget prefix value | 9/9 exact-match wins (boundary proxies: 2 wins, 2 ties); restart@8192 reaches τ 11/13 | `scripts/probe_terminal_stability.py` + labels | same |
+| Intermediate-solvability band | 55/148 cells at 3–5 of 8 | `scripts/probe_ambiguity_topup.py` | same |
 | Pre-registered prediction null | ΔAUROC +0.026 / −0.090, CIs ∋ 0 | `scripts/run_confirmatory_early_signal_test.py` | `results/confirmatory_report.json` |
 | Forecast-point sweep (post-hoc) | 8/10 deltas negative | same script, other t | `results/posthoc_sweep_t*.json` |
-| Question-only ceiling, R1 dumps | AUROC 0.873 (192k gens) | `scripts/analyze_public_difficulty_ceiling.py` | `results/openr1_difficulty_ceiling.json` |
+| Trace-blind difficulty ceiling, R1 dumps | AUROC 0.873 (192k gens) | `scripts/analyze_public_difficulty_ceiling.py` | `results/openr1_difficulty_ceiling.json` |
 | Ceiling off-math, GPQA-diamond | AUROC 0.917 (16k samples) | `scripts/analyze_nonmath_ceiling.py` | `results/gpqa_difficulty_ceiling.json` |
 | Probe dissection, R1-Distill-7B | pooled 0.849 vs within 0.496 | `scripts/verify_math128_dump.py` → `extract_math128_states.py` → `analyze_math128_probe.py` | `results/math128_probe_report.json` |
 
