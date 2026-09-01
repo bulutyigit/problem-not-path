@@ -36,8 +36,9 @@ straddling zero (Figure~\ref{fig:sweep}): the absence of detected gain is
 not an artifact of the chosen window. These are absences of detected gain,
 not demonstrations of equivalence --- the primary CI's upper bound
 ($+0.167$) does not exclude moderate effects, and no equivalence margin
-was pre-registered; an equivalence-style reading is licensed only where
-the intervals are tight, in the within-problem dissection below.
+was pre-registered anywhere; what tighter intervals can support is an
+explicit bound on effect size, as in the within-problem dissection
+below.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{confirmatory_auroc}
@@ -53,9 +54,9 @@ signals.}
 
 Why the null has this shape is visible in the per-model split: the
 difficulty baseline alone is near-perfect for Gemma-4 (test AUROC $1.0$
-on both endpoints) and mediocre for Ministral-3 ($0.69$--$0.73$).
-Difficulty almost fully accounts for the capability-limited model's
-outcomes, while the
+on both endpoints, $n{=}16$ and $11$) and mediocre for Ministral-3
+($0.69$--$0.73$). Descriptively, difficulty leaves little to explain for
+the capability-limited model, while the
 budget-elastic model's outcomes carry residual stochastic variance --- the
 band of Section~\ref{sec:results-regimes} --- that neither difficulty nor
 early dynamics explain.
@@ -108,13 +109,14 @@ neutral reference for ``no within-attempt information'' is $\tfrac{1}{2}$.
 
 Our cohort is small, so we asked the same question of public data at
 scale. On 192{,}315 DeepSeek-R1 generations over 91{,}573 problems
-\citep{openr1math}, a question-only predictor --- the leave-one-out pass
-rate of the problem's \emph{other} attempts, for 92\% of problems a single
-binary observation --- achieves AUROC $0.873$ $[0.870, 0.876]$
+\citep{openr1math}, a trace-blind difficulty proxy --- the leave-one-out
+pass rate of the problem's \emph{other} attempts, for 92\% of problems a
+single binary observation, reading neither the trace nor the question ---
+achieves AUROC $0.873$ $[0.870, 0.876]$
 (problem-clustered bootstrap; estimator frozen before evaluation, and
 conservative by construction since dataset curation truncates the
-difficulty range). That places a question-only signal squarely inside the
-$0.79$--$0.95$ range that internal-state probe papers report
+difficulty range). That places a predictor that never reads the trace
+squarely inside the $0.79$--$0.95$ range that internal-state probe papers report
 \citep{zhang2025knowright, yuan2026diagnostic, sun2026trajectories,
 david2025temporal} --- none of which report a question-only baseline
 (Figure~\ref{fig:ceiling}; the partial exception,
@@ -127,8 +129,9 @@ multiple-choice guessing floor that attenuates, never inflates, it.
 
 \begin{figure}[t]\centering
 \includegraphics[width=.9\linewidth]{difficulty_ceiling_openr1}
-\caption{A question-only signal on public DeepSeek-R1 generations reaches
-AUROC 0.873 --- inside the published probe range.}
+\caption{A trace-blind difficulty proxy (the leave-one-out pass rate of
+the problem's other attempts) reaches AUROC 0.873 on public DeepSeek-R1
+generations --- inside the published probe range.}
 \label{fig:ceiling}\end{figure}
 
 \subsection{Dissecting a published probe positive in the reasoning-model
@@ -145,18 +148,22 @@ design permits the control no published positive can run: evaluating the
 construction.
 
 The uncontrolled result replicates: a last-four-token hidden-state probe
-at $t = 4$ reaches pooled AUROC $0.849$ $[0.735, 0.919]$, matching the
-$0.84$ reported by \citet{david2025temporal}. The same probe, on the same
-trajectories, evaluated within problem --- the within component of
+at $t = 4$ reaches pooled AUROC $0.849$ $[0.735, 0.919]$ on the
+8-per-problem evaluation set ($n{=}1{,}024$), matching the $0.84$
+reported by \citet{david2025temporal}. The same probe, evaluated within
+problem on the 22 mid-band problems ($n{=}5{,}632$) --- the within component of
 Eq.~\eqref{eq:decomp}, estimated under both discordant-pair and the
 pre-registered failure-count weighting (Appendix~\ref{app:extra}) ---
 sits at $0.496$ $[0.466, 0.527]$ under the pre-registered
 failure-count weighting and $0.515$ $[0.481, 0.562]$ under exact
 discordant-pair weighting --- chance under both --- and remains at chance
 at every one of ten anchors from $t = 4$ to $512$
-(Figure~\ref{fig:dissect}). The entire positive is problem identity, far
-below the dump's full leave-one-out difficulty ceiling of $0.981$
-(pass rate of the 255 other attempts per problem). Moreover, with sample composition held fixed, the pooled AUROC
+(Figure~\ref{fig:dissect}); the upper confidence limits bound any
+within-attempt AUROC signal at $t = 4$ by $0.527$ (failure-weighted) and
+$0.562$ (pair-weighted). The pooled positive is therefore predominantly
+--- and possibly entirely --- between-problem information, far below the
+dump's full leave-one-out difficulty ceiling of $0.981$ (pass rate of the
+255 other attempts per problem). Moreover, with sample composition held fixed, the pooled AUROC
 itself collapses --- indistinguishable from chance by $t = 16$ ($0.586$,
 CI straddling $0.5$) and $\approx 0.55$ from $t = 32$ onward: the
 difficulty content readable from last-token states is a prompt echo that

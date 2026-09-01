@@ -345,10 +345,10 @@ def fig_matched_compute(root: Path, labels: pd.DataFrame, out: Path) -> None:
          for p, a in zip(lab.problem_id, lab.terminal_a1_anchor)], fontsize=8.4)
     ax.set_xlabel("Success rate"); ax.set_xlim(-0.04, 1.06)
     ax.grid(axis="y", visible=False)
-    ax.set_title("Prefix beats restart at matched total compute in 11/13; the "
-                 "largest measured restart reaches τ in 11/13 and the prefix "
-                 "rate in 9/13\n(* matched budget 9,216 exceeds the grid; "
-                 "R(8,192) substituted, favoring the prefix)",
+    ax.set_title("In-grid matched comparisons: prefix wins 9/9 (median +0.31); "
+                 "starred boundary proxies: 2 wins, 2 ties.\nLargest measured "
+                 "restart reaches τ in 11/13, the prefix rate in 9/13 "
+                 "(* R(9,216) unmeasured; R(8,192) proxy, bias direction unknown)",
                  loc="left", fontsize=8.8, color=SEC, pad=10)
     handles = [Line2D([], [], marker="o", ls="", color=ORANGE,
                       label="continue own prefix at final anchor t (pooled, 8 branches)"),
@@ -408,12 +408,56 @@ def fig_dissection(report_path: Path, out: Path) -> None:
     plt.close(fig)
 
 
+
+
+def fig_ceiling(report_path: Path, out: Path) -> None:
+    r = json.loads(report_path.read_text())
+    point = r["loo_ceiling_auroc"] if "loo_ceiling_auroc" in r else r["primary_auroc_difficulty_loo"]
+    ci = r.get("ci") or [r["primary_ci"]["ci_low"], r["primary_ci"]["ci_high"]]
+    fig, ax = plt.subplots(figsize=(8.6, 4.4), layout="constrained")
+    fig.get_layout_engine().set(rect=(0, 0, 1, 0.88))
+    ax.axhspan(0.79, 0.95, color="#f3d9c9", alpha=0.55, zorder=0)
+    ax.text(2.42, 0.945, "range of published probe AUROCs\n(internal-state "
+            "positives, no question-only baseline)", ha="right", va="top",
+            fontsize=8.6, color="#b06a34")
+    ax.axhline(0.5, color=MUTED, lw=1, ls="--")
+    ax.text(2.42, 0.507, "chance", fontsize=8, color=MUTED, ha="right")
+    ax.scatter([0], [0.5], color=MUTED, s=40, zorder=3)
+    ax.plot([1, 1], ci, color="#0f8a74", lw=3, solid_capstyle="round", zorder=3)
+    ax.scatter([1], [point], color="#0f8a74", s=70, zorder=4)
+    ax.annotate(f"{point:.3f}", (1, point), textcoords="offset points",
+                xytext=(12, 0), fontsize=10, color="#0f8a74", va="center")
+    oracle = r.get("oracle_upper_reference_non_loo")
+    if oracle:
+        ax.scatter([2], [oracle], facecolor="none", edgecolor=INK, s=70,
+                   marker="^", zorder=3)
+        ax.annotate(f"{oracle:.3f}", (2, oracle), textcoords="offset points",
+                    xytext=(12, 0), fontsize=9, color=SEC, va="center")
+    ax.set_xticks([0, 1, 2])
+    ax.set_xticklabels(["chance",
+                        "trace-blind difficulty proxy:\nLOO pass rate of other "
+                        "attempts\n(192,315 R1 generations, 91,573 problems)",
+                        "oracle pass rate\n(non-LOO reference)"], fontsize=8.8)
+    ax.set_ylabel("AUROC for trajectory-level correctness")
+    ax.set_ylim(0.45, 1.02); ax.set_xlim(-0.4, 2.45)
+    ax.grid(axis="x", visible=False)
+    fig.suptitle("A trace-blind difficulty proxy already sits inside the published "
+                 "probe range — DeepSeek-R1 public dumps",
+                 fontsize=11.2, color=INK, x=0.01, ha="left")
+    ax.set_title("Estimator frozen before evaluation; conservative (k = 2 for 92% "
+                 "of problems; curation drops some all-fail problems)",
+                 loc="left", fontsize=8.4, color=SEC)
+    fig.savefig(out / "difficulty_ceiling_openr1.png", dpi=180)
+    plt.close(fig)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--labels", type=Path, required=True)
     parser.add_argument("--phase04c-root", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--dissection-report", type=Path, default=None)
+    parser.add_argument("--ceiling-report", type=Path, default=None)
     args = parser.parse_args()
     args.output_dir.mkdir(parents=True, exist_ok=True)
     labels = pd.read_parquet(args.labels)
@@ -426,6 +470,8 @@ def main() -> None:
     fig_matched_compute(args.phase04c_root, labels, args.output_dir)
     if args.dissection_report and args.dissection_report.exists():
         fig_dissection(args.dissection_report, args.output_dir)
+    if args.ceiling_report and args.ceiling_report.exists():
+        fig_ceiling(args.ceiling_report, args.output_dir)
     print("figures rendered to", args.output_dir)
 
 

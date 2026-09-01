@@ -94,3 +94,18 @@ problem-identity; no within-attempt early signal exists in this regime
 either. Reconciliations: consistent with Lugoloobi et al.'s
 declining-signal-with-budget and with probes at special answer positions
 (Zhang et al.) rather than arbitrary early positions.
+
+## Audit re-analysis (2026-09-01, external critique applied)
+
+Two implementation corrections from the pre-submission audit, both
+re-run with unchanged probe pipeline and seeds (state-probe values
+identical to the original run):
+- The LOO baseline now uses the full 32,768-sample verification table
+  (255 other attempts per problem) instead of the extracted subset
+  (7 others for non-mid-band problems): pooled LOO AUROC 0.974 -> 0.981.
+- The within-problem metric is additionally reported under exact
+  discordant-pair weighting (s_c * f_c), the weighting implied by the
+  paper's pooled-AUROC decomposition, alongside the pre-registered
+  failure-count weighting: at t = 4, 0.515 [0.481, 0.562] vs
+  0.496 [0.466, 0.527]; chance under both weightings at all ten anchors.
+Outputs: analysis_v2/. Conclusions unchanged.

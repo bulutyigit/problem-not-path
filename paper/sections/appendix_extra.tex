@@ -219,12 +219,15 @@ from a 100-problem level-balanced pool by frozen outcome-blind rules; the
 expansion screen selected problems with 1--5 verified successes out of 6
 fresh 3{,}072-token attempts (2 models $\times$ 3 seeds).
 
-\textbf{Classifiers.} All probes and the confirmatory models are
-$\ell_2$ logistic regression (C $= 0.1$, liblinear, class-weight
-balanced, max 5{,}000 iterations) on standardized features; raw-state
-probes add PCA to at most 128 components. Folds are
-StratifiedGroupKFold with problems as groups. Confidence intervals are
-percentile bootstraps over 2{,}000 problem-clustered draws.
+\textbf{Classifiers.} The instrumented-cohort analyses (confirmatory
+test and sweep) use $\ell_2$ logistic regression with C $= 0.1$,
+liblinear, class-weight balanced, at most 5{,}000 iterations, on
+standardized features. The public-dump probe battery uses scikit-learn
+defaults (C $= 1$, lbfgs) with class-weight balanced, at most 2{,}000
+iterations, standardization, and PCA to at most 128 components ---
+matching the probe recipes it replicates. Folds are StratifiedGroupKFold
+with problems as groups throughout. Confidence intervals are percentile
+bootstraps over 2{,}000 problem-clustered draws.
 
 \textbf{Exclusions.} Fifteen of 178 cells whose base run ended before
 the 512-token forecast window (10 train, 4 validation, 1 test) are

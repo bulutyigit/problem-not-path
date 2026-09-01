@@ -43,14 +43,15 @@ from-scratch restart curves $R(C)$ at matched \emph{total} compute, with
 interval censoring and attempt-level noise handled explicitly. Applying the
 instrument to 178 problem--model cells (89 MATH problems $\times$ two small
 open models, 16K-token instrumented traces), we find: (i) only 1 of 178
-cells survives as prefix-limited under the frozen rules (three cells cross
-the advantage margin; an in-grid restart already solves two); (ii) restart dose--response
+cells survives as prefix-limited under the frozen rules (three non-instant
+cells cross the advantage margin; an in-grid restart already solves two); (ii) restart dose--response
 curves cleanly separate failure modes --- one model is compute-starved
 (solve share 0\%$\to$79\% as budget grows), the other capability-limited
-(flat); (iii) at matched total compute, continuing the model's own prefix
-beats restarting in 11/13 late-crossing cells, yet an 8{,}192-token restart
-reaches the same threshold in 11/13 and the prefix's own success rate in
-9/13 --- accumulated reasoning acts as \emph{compute
+(flat); (iii) wherever matched total compute lies inside the restart grid,
+continuing the model's own prefix beats restarting (9 of 9 late-crossing
+cells; 2 wins and 2 ties on four boundary proxies), yet an 8{,}192-token
+restart reaches the same threshold in 11/13 and the prefix's own success
+rate in 9/13 --- accumulated reasoning acts as \emph{compute
 compression}, not expanded reachability; (iv) roughly a third of ambiguous
 intermediate states remain intermediate after eight attempts (success
 rates 0.3--0.6), a band the independent second half of attempts
@@ -61,11 +62,13 @@ beyond a problem-difficulty baseline, at every forecast point from 128 to
 2,048 tokens --- a control that the growing literature of probe-based
 positives lacks. Two generation-free analyses of public corpora show the
 control bites in that literature's own regime: on 192K DeepSeek-R1
-generations a question-only signal reaches AUROC 0.873, inside the
-published probe range; and the closest published early-window positive
-replicates exactly (pooled 0.849 at $t{=}4$ on 6{,}480 R1-Distill-7B
-trajectories) while sitting at chance (0.496) \emph{within problem} at
-every anchor --- the entire signal is problem identity.
+generations a trace-blind difficulty proxy (the leave-one-out pass rate of
+the problem's other attempts) reaches AUROC 0.873, inside the published
+probe range; and the closest published early-window positive
+replicates (pooled 0.849 at $t{=}4$) while sitting at chance
+\emph{within problem} at every anchor, on the 22 non-saturated problems
+that hold 94\% of all failures --- consistent with the pooled positive
+being predominantly, and possibly entirely, between-problem information.
 \end{abstract}
 
 \section{Introduction}\label{sec:intro}

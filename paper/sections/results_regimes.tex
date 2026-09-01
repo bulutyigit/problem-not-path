@@ -62,14 +62,15 @@ Ministral-3 climbs $0\%\to79\%$; Gemma-4 stays flat.}
 The 13 threshold-censored Ministral-3 expansion cells --- trajectories
 whose crossing was replicated only at the final anchor --- allow the
 sharpest statement of what a long prefix is worth
-(Figure~\ref{fig:matched}). At \emph{matched total compute}, continuing
-the model's own prefix beats restarting in 11 of 13 cells (median
-advantage $+0.31$); for the four cells anchored at $t = 8{,}192$ the
-matched budget of $9{,}216$ exceeds the restart grid and
-$\Rhat(8{,}192)$ is substituted --- a substitution that can only favor
-the prefix, disclosed here. The largest measured restart reaches
-$\tauthr$ in 11 of 13 cells and matches the prefix's own pooled success
-rate in 9 of 13.
+(Figure~\ref{fig:matched}). In the nine cells whose matched budget $t + B$ lies inside the restart
+grid, continuing the model's own prefix beats restarting in all nine
+(median advantage $+0.31$). The four cells anchored at $t = 8{,}192$
+require $\Rhat(9{,}216)$, which was not measured; substituting
+$\Rhat(8{,}192)$ makes them proxy comparisons whose bias direction is
+unknown --- restart curves are not uniformly monotone --- and on these
+proxies the prefix wins two and ties two. The largest measured restart
+reaches $\tauthr$ in 11 of 13 cells and matches the prefix's own pooled
+success rate in 9 of 13.
 Accumulated reasoning therefore acts as \emph{compression} --- it reaches
 the same solutions with fewer total tokens --- rather than as expanded
 reachability. This instantiates, empirically and per problem, the no-benefit branch of
@@ -90,7 +91,7 @@ measured restart reaches $\tauthr$ in 11/13 and the prefix's own rate in
 9/13.}
 \label{fig:matched}\end{figure}
 
-\subsection{A genuinely stochastic solvability band}
+\subsection{A persistent band of intermediate solvability}
 
 Enlarging all 148 ambiguous cells to eight attempts resolved 55 as
 effectively unsolvable ($\le 2/8$) and 38 as solvable ($\ge 6/8$) --- and
