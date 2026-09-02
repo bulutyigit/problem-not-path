@@ -215,7 +215,7 @@ class RunPodPipeline:
         self._configure_cache()
 
     def _validate_project(self) -> None:
-        required = ("pyproject.toml", "PLAN.md", "scripts")
+        required = ("pyproject.toml", "scripts")
         missing = [name for name in required if not (self.project_root / name).exists()]
         if missing:
             raise FileNotFoundError(

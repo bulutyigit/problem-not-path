@@ -3,7 +3,7 @@
 **Budget and Difficulty Confounds in LLM Reasoning Trajectories**
 
 Code, frozen protocols, and result artifacts for the paper (arXiv link to
-follow). Yigit Utku Bulut, Johannes Kepler University Linz.
+follow; the paper's LaTeX source is distributed with the arXiv submission). Yigit Utku Bulut, Johannes Kepler University Linz.
 
 ## TL;DR
 
@@ -49,8 +49,9 @@ Paper figures are under `results/figures/`.
 ## Repository map
 
 ```
-paper/                  LaTeX source of the paper
 docs/protocol_amendments/   the frozen, dated decision rules (pre-registration)
+docs/claims_evidence.md the claims-to-evidence backbone: every paper claim,
+                        the artifact behind it, and its numbers
 docs/                   runbooks for the generation pipeline
 reasonbench/            library: instrumented generation (MLX), probes,
                         censoring-aware labels, feature extraction, predictors

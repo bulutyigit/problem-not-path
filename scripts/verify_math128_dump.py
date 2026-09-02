@@ -2,7 +2,8 @@
 import sys, yaml, re
 from pathlib import Path
 import pandas as pd
-sys.path.insert(0, "/Users/bulutyigit/Documents/pycharm_projects/how_models_reason")
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
 from huggingface_hub import snapshot_download
 from reasonbench.verification import verify_answer
 
@@ -33,7 +34,7 @@ for path in sorted(Path(local).glob("*.yaml"), key=lambda p: int(p.stem)):
     if int(path.stem) % 16 == 0:
         print("problem", path.stem, "done", flush=True)
 f = pd.DataFrame(rows)
-out = Path("/Users/bulutyigit/Documents/pycharm_projects/how_models_reason/artifacts/external/math128_distill7b")
+out = REPO_ROOT / "artifacts/external/math128_distill7b"
 out.mkdir(parents=True, exist_ok=True)
 f.to_parquet(out / "sample_correctness.parquet", index=False)
 p = f.groupby("problem").correct.mean()
