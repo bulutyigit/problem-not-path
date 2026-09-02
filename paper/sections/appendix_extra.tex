@@ -195,6 +195,23 @@ $[0.488, 0.547]$ at $t{=}4$ against $0.496$ $[0.466, 0.527]$, which trains
 on both sets). Table~\ref{tab:withinrobust} reports failure-weighted means
 with problem-clustered bootstrap CIs.
 
+
+The signal is heterogeneous. Three problems (ids 20, 22, and 13, with 18,
+49, and 17 failures --- 84 of 2{,}178) are strongly separable at every
+anchor including $t{=}4$ (oracle AUROC $0.92$, $0.84$, $0.78$; centered
+transfer $0.93$, $0.86$, $0.33$), and per-problem oracle AUROCs are
+consistent across anchors (Spearman $0.71$ between $t{=}32$ and $64$). In
+problems 20 and 22 the failing samples are four to six times shorter than
+the successes (median 2{,}364 versus 15{,}321 and 1{,}299 versus 5{,}168
+characters): an early answer-without-reasoning mode, visible from the
+first tokens. In problem 13 lengths and re-scoring fidelity match --- a
+genuine early content divergence. The high-failure problems that dominate
+the failure-weighted mean (216 and 223 failures of 256, for instance)
+show no separability. Within-attempt information therefore exists but is
+small on average, appears after the earliest window, and is concentrated
+where failures are rare --- the opposite of the regime that produces the
+pooled positive.
+
 \begin{table}[h]\centering\small
 \begin{tabular}{rcccc}
 \toprule
@@ -220,22 +237,6 @@ label-permutation nulls (12 draws at $t \in \{4, 32, 64, 128\}$) span
 $0.47$--$0.54$ for the A means, $0.44$--$0.54$ for the B means, and
 $0.53$--$0.76$ for the B maxima.}
 \label{tab:withinrobust}\end{table}
-
-The signal is heterogeneous. Three problems (ids 20, 22, and 13, with 18,
-49, and 17 failures --- 84 of 2{,}178) are strongly separable at every
-anchor including $t{=}4$ (oracle AUROC $0.92$, $0.84$, $0.78$; centered
-transfer $0.93$, $0.86$, $0.33$), and per-problem oracle AUROCs are
-consistent across anchors (Spearman $0.71$ between $t{=}32$ and $64$). In
-problems 20 and 22 the failing samples are four to six times shorter than
-the successes (median 2{,}364 versus 15{,}321 and 1{,}299 versus 5{,}168
-characters): an early answer-without-reasoning mode, visible from the
-first tokens. In problem 13 lengths and re-scoring fidelity match --- a
-genuine early content divergence. The high-failure problems that dominate
-the failure-weighted mean (216 and 223 failures of 256, for instance)
-show no separability. Within-attempt information therefore exists but is
-small on average, appears after the earliest window, and is concentrated
-where failures are rare --- the opposite of the regime that produces the
-pooled positive.
 
 \subsection{Post-hoc forecast-point sweep: full table}
 
