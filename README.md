@@ -2,10 +2,13 @@
 
 **Budget and Difficulty Confounds in LLM Reasoning Trajectories**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22261107.svg)](https://doi.org/10.5281/zenodo.22261107)
+
 This is the code, the frozen protocols, and the result artifacts behind the
 paper. I'm Yigit Utku Bulut, a master's student at Johannes Kepler
-University Linz; I did this work independently. A preprint link will
-appear here as soon as it is live.
+University Linz; I did this work independently. The paper is on Zenodo at
+[doi:10.5281/zenodo.22261107](https://doi.org/10.5281/zenodo.22261107);
+an arXiv version will follow.
 
 If you are short on time: the paper's every number traces to a file in
 `results/`, produced by a script in `scripts/`, under a rule frozen in
@@ -186,12 +189,14 @@ apparatus here is built to run it.
 MIT (see `LICENSE`). If this is useful to you:
 
 ```bibtex
-@article{bulut2026problemnotpath,
-  title  = {It's the Problem, Not the Path: Budget and Difficulty
-            Confounds in LLM Reasoning Trajectories},
-  author = {Bulut, Yigit Utku},
-  year   = {2026},
-  note   = {Preprint; DOI to follow}
+@misc{bulut2026problemnotpath,
+  title     = {It's the Problem, Not the Path: Budget and Difficulty
+               Confounds in LLM Reasoning Trajectories},
+  author    = {Bulut, Yigit Utku},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.22261107},
+  url       = {https://doi.org/10.5281/zenodo.22261107}
 }
 ```
 
