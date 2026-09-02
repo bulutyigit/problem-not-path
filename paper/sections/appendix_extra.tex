@@ -177,6 +177,66 @@ NaN out-of-fold predictions; scikit-learn overflow warnings trace to
 near-constant standardized dimensions and are cosmetic. Teacher-forcing
 fidelity: mean top-1 agreement 0.906 (10th percentile 0.859).
 
+\subsection{Post-hoc within-problem robustness checks}\label{app:within-robust}
+
+Run after all frozen endpoints were reported and labeled post-hoc in the
+amendment, these checks ask whether within-attempt information could
+exist that the pooled-trained probe of
+Section~\ref{sec:results-prediction} cannot see. Both use the stored
+states of the 22-problem within set ($n{=}5{,}632$). \textbf{A,
+problem-centered transfer:} each problem's mean state is subtracted
+(label-free) and the probe (standardization, PCA${}\le 128$, balanced
+logistic) is trained on problem-disjoint folds and scored within held-out
+problems. \textbf{B, per-problem oracle:} a separate probe (PCA 32) per
+problem with sample-disjoint folds --- an upper bound on linearly
+decodable within-problem signal that requires no transfer. An uncentered
+re-run on the within set alone reproduces the frozen battery ($0.515$
+$[0.488, 0.547]$ at $t{=}4$ against $0.496$ $[0.466, 0.527]$, which trains
+on both sets). Table~\ref{tab:withinrobust} reports failure-weighted means
+with problem-clustered bootstrap CIs.
+
+\begin{table}[h]\centering\small
+\begin{tabular}{rcccc}
+\toprule
+$t$ & A: centered transfer [95\% CI] & B: per-problem oracle [95\% CI] & B max & B $>0.6$ \\
+\midrule
+4   & 0.490 $[0.464{,} 0.523]$ & 0.476 $[0.435{,} 0.529]$ & 0.924 & 3 \\
+8   & 0.526 $[0.502{,} 0.550]$ & 0.479 $[0.449{,} 0.519]$ & 0.873 & 3 \\
+16  & 0.486 $[0.451{,} 0.534]$ & 0.481 $[0.437{,} 0.536]$ & 0.908 & 4 \\
+32  & 0.556 $[0.522{,} 0.588]$ & 0.519 $[0.478{,} 0.560]$ & 0.894 & 5 \\
+64  & 0.532 $[0.502{,} 0.565]$ & 0.558 $[0.523{,} 0.593]$ & 0.868 & 7 \\
+128 & 0.524 $[0.504{,} 0.548]$ & 0.519 $[0.489{,} 0.556]$ & 0.824 & 4 \\
+192 & 0.526 $[0.498{,} 0.556]$ & 0.491 $[0.452{,} 0.543]$ & 0.900 & 5 \\
+256 & 0.536 $[0.503{,} 0.570]$ & 0.531 $[0.493{,} 0.576]$ & 0.935 & 5 \\
+384 & 0.529 $[0.516{,} 0.546]$ & 0.532 $[0.493{,} 0.576]$ & 0.939 & 6 \\
+512 & 0.521 $[0.466{,} 0.580]$ & 0.507 $[0.457{,} 0.549]$ & 0.932 & 3 \\
+\bottomrule
+\end{tabular}
+\caption{Post-hoc within-problem checks on the 22-problem within set:
+failure-weighted mean within-problem AUROC of a problem-centered transfer
+probe (A) and of per-problem oracles (B), the largest single-problem
+oracle AUROC, and the number of problems above 0.6. Within-problem
+label-permutation nulls (12 draws at $t \in \{4, 32, 64, 128\}$) span
+$0.47$--$0.54$ for the A means, $0.44$--$0.54$ for the B means, and
+$0.53$--$0.76$ for the B maxima.}
+\label{tab:withinrobust}\end{table}
+
+The signal is heterogeneous. Three problems (ids 20, 22, and 13, with 18,
+49, and 17 failures --- 84 of 2{,}178) are strongly separable at every
+anchor including $t{=}4$ (oracle AUROC $0.92$, $0.84$, $0.78$; centered
+transfer $0.93$, $0.86$, $0.33$), and per-problem oracle AUROCs are
+consistent across anchors (Spearman $0.71$ between $t{=}32$ and $64$). In
+problems 20 and 22 the failing samples are four to six times shorter than
+the successes (median 2{,}364 versus 15{,}321 and 1{,}299 versus 5{,}168
+characters): an early answer-without-reasoning mode, visible from the
+first tokens. In problem 13 lengths and re-scoring fidelity match --- a
+genuine early content divergence. The high-failure problems that dominate
+the failure-weighted mean (216 and 223 failures of 256, for instance)
+show no separability. Within-attempt information therefore exists but is
+small on average, appears after the earliest window, and is concentrated
+where failures are rare --- the opposite of the regime that produces the
+pooled positive.
+
 \subsection{Post-hoc forecast-point sweep: full table}
 
 Table~\ref{tab:sweep} lists both endpoints at every forecast point.

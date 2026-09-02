@@ -109,3 +109,40 @@ identical to the original run):
   failure-count weighting: at t = 4, 0.515 [0.481, 0.562] vs
   0.496 [0.466, 0.527]; chance under both weightings at all ten anchors.
 Outputs: analysis_v2/. Conclusions unchanged.
+
+## Post-hoc within-problem robustness check (2026-09-02, after reporting; not pre-registered)
+
+Motivation: a pooled-trained probe may fail to carry within-attempt
+information simply because problem identity dominates its training signal.
+Two checks on the stored states of the 22-problem within set
+(`scripts/analyze_math128_within_robustness.py`, `..._within_followup.py`;
+outputs in `analysis_v2/within_robustness_*.json`):
+
+- **A. Problem-centered transfer probe** (per-problem mean removed from the
+  states, label-free; problem-disjoint 5-fold; PCA<=128 + balanced logistic):
+  failure-weighted within AUROC 0.490 [0.464, 0.523] at t=4 (chance), rising
+  to 0.556 [0.522, 0.588] at t=32 and 0.52–0.54 at t>=64 (several CIs exclude
+  0.5; within-problem label-permutation null spans 0.47–0.53).
+- **B. Per-problem oracle** (sample-disjoint 5-fold inside each problem,
+  PCA 32): failure-weighted mean 0.476 at t=4 (chance; permutation null
+  0.44–0.49), 0.558 at t=64 (null 0.44–0.50). Heterogeneous: 3 of 22
+  problems (ids 20, 22, 13; 84 of 2,178 failures) are strongly separable at
+  every anchor including t=4 (AUROC 0.92 / 0.84 / 0.78; permutation null
+  maximum <= 0.61), with per-problem AUROCs consistent across anchors
+  (Spearman 0.71 between t=32 and t=64). In problems 20 and 22 the failures
+  are 4–6x shorter than the successes (an early answer-without-reasoning
+  mode); in 13 lengths and fidelity match (a genuine early content
+  divergence). High-failure problems (e.g. 83, 81) show no separability.
+- **C. Uncentered re-run** on the within set alone reproduces the frozen
+  battery qualitatively (0.515 [0.488, 0.547] at t=4; the battery trains on
+  both sets and reports 0.496 [0.466, 0.527]).
+
+Reading: the frozen conclusion stands (the reconstructed, pooled-trained
+probe carries no within-attempt information at any anchor, and the
+published-style early-window positive is between-problem). Within-attempt
+information does exist, but it is small on average, appears from t~32
+rather than in the earliest window, and is concentrated in a few
+low-failure problems — the rare failures on easy problems are legible
+early; the common failures on hard problems are not. "Possibly entirely
+between-problem" is therefore too strong; "predominantly" is the accurate
+scope.

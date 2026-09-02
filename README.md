@@ -42,6 +42,7 @@ intermediate after eight attempts (success 0.3–0.6 at n=8).
 | Trace-blind difficulty ceiling, R1 dumps | AUROC 0.873 (192k gens) | `scripts/analyze_public_difficulty_ceiling.py` | `results/openr1_difficulty_ceiling.json` |
 | Ceiling off-math, GPQA-diamond | AUROC 0.917 (16k samples) | `scripts/analyze_nonmath_ceiling.py` | `results/gpqa_difficulty_ceiling.json` |
 | Probe dissection, R1-Distill-7B | pooled 0.849 vs within 0.496 | `scripts/verify_math128_dump.py` → `extract_math128_states.py` → `analyze_math128_probe.py` | `results/math128_probe_report.json` |
+| Within-problem robustness (post-hoc) | centered probe 0.49 at t=4 → 0.56 at t=32; 3/22 problems separable | `scripts/analyze_math128_within_robustness.py`, `..._followup.py` | `results/within_robustness_posthoc.json`, `..._followup.json` |
 
 Paper figures are under `results/figures/`.
 

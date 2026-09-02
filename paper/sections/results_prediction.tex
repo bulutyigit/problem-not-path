@@ -174,7 +174,7 @@ Figure~\ref{fig:dissect}); the upper confidence limits cap the
 failure-weighted and pair-weighted \emph{mean} within-problem AUROC at
 $t = 4$ at $0.527$ and $0.562$ --- bounds on these weighted-mean
 estimands, not on any single problem. The pooled positive is therefore predominantly
---- and possibly entirely --- between-problem information, far below the
+between-problem information, far below the
 dump's full leave-one-out difficulty ceiling: scoring each attempt by the
 pass rate of its problem's 255 \emph{other} attempts (the surrogate
 $\hat d_{c,j}$ introduced with Eq.~\eqref{eq:decomp}, computed from the
@@ -193,6 +193,21 @@ intermediate-\emph{answer} positions rather than arbitrary early positions
 \citep{zhang2025knowright} --- under a single reading: what a linear probe reads from last-token
 states is problem information that fades as generation proceeds, not the
 fate of the attempt.
+
+Two post-hoc checks, run after all frozen endpoints were reported
+(Appendix~\ref{app:within-robust}), ask whether within-attempt information
+could exist that a pooled-trained probe cannot see. A probe trained on
+problem-centered states (each problem's mean removed, label-free) with
+problem-disjoint folds is at chance at $t = 4$ (mean within-problem AUROC
+$0.490$ $[0.464, 0.523]$) and reaches only $0.556$ $[0.522, 0.588]$ at
+$t = 32$ and $0.52$--$0.54$ thereafter; a per-problem oracle finds the
+signal concentrated in three of the 22 problems (AUROC $0.78$--$0.92$ at
+every anchor, holding 84 of the 2{,}178 failures), in two of which the
+failing samples are four to six times shorter than the successes --- an
+early answer-without-reasoning mode. Within-attempt information therefore
+exists but is small on average, appears after the earliest window, and
+lives where failures are rare; the published-style positive draws on none
+of it.
 
 \begin{figure}[t]\centering
 \includegraphics[width=\linewidth]{math128_probe_dissection}

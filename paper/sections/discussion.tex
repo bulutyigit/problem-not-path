@@ -29,7 +29,12 @@ within-problem evaluation will substantially shrink the reported gaps. It
 also does not make internal signals useless: within-problem trace
 \emph{selection} \citep{fu2025deepconf} and pre-generation difficulty
 routing \citep{lugoloobi2026} are consistent with everything we find ---
-both exploit exactly the difficulty signal we isolate. Together with the
+both exploit exactly the difficulty signal we isolate. Nor is
+within-attempt information absent: a post-hoc within-targeted check
+(Appendix~\ref{app:within-robust}) finds a small, late component
+concentrated in a few low-failure problems --- the rare failures on easy
+problems are legible early, the common failures on hard problems are not
+--- which is not the signal the pooled positives report. Together with the
 causal failures of probe signals \citep{yuan2026diagnostic} and their
 coherence confound under contaminated prefixes \citep{pair2026}, the
 critique now stands on three independent legs: probe signals can be causally
