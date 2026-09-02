@@ -105,8 +105,10 @@ reviewers on request.
 
 All external data is public: [OpenR1-Math-220k](https://huggingface.co/datasets/open-r1/OpenR1-Math-220k),
 the [math128 R1-Distill-7B dump](https://huggingface.co/datasets/nishadsinghi/math128_solutions_r1_distill_qwen_7b_32K_tokens)
-and [GPQA-diamond Llama-3.3-70B dump](https://huggingface.co/datasets/sc-genrm-scaling/GPQA_diamond_Solutions_Llama-3.3-70B-Instruct)
-released by Singhi et al. (COLM 2025), the
+(released by the first author of Singhi et al., COLM 2025, alongside that
+paper's data; not described in the paper itself) and the
+[GPQA-diamond Llama-3.3-70B dump](https://huggingface.co/datasets/sc-genrm-scaling/GPQA_diamond_Solutions_Llama-3.3-70B-Instruct)
+from Singhi et al. (COLM 2025), the
 [MATH](https://github.com/hendrycks/math) benchmark, and
 [GPQA](https://github.com/idavidrein/gpqa). We thank the dump authors for
 releasing complete, unfiltered samples — that practice is what made the
