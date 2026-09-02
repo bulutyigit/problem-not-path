@@ -11,6 +11,10 @@
 \usepackage[numbers,sort&compress]{natbib}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
 \graphicspath{{figures/}}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.7}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.75}
 
 \newcommand{\Tf}{\ensuremath{T_F}}
 \newcommand{\Tv}{\ensuremath{T_V}}
@@ -49,7 +53,7 @@ difficulty-controlled test finds no detectable outcome information in
 early-window internal signals beyond a problem-difficulty baseline, and
 two generation-free analyses of public corpora show why this control is
 needed: a trace-blind difficulty proxy reaches AUROC 0.873 on 192K
-DeepSeek-R1 generations --- inside the published probe range --- and the
+DeepSeek-R1 generations --- inside the published probe range --- and
 a closely matched reconstruction of the closest published early-window
 positive recovers a comparable pooled result (0.849) while
 within problem it is statistically indistinguishable from chance at all
